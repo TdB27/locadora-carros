@@ -60,6 +60,11 @@
                     <template v-slot:conteudo>
                         <table-component
                             :dados="marcas.data"
+                            :dados-relacionais="{
+                                dados: marcas.data,
+                                campoRelacional: ['modelos'],
+                                idRelacional: 'marca_id',
+                            }"
                             :visualizar="{
                                 visivel: true,
                                 dataToggle: 'modal',
@@ -229,6 +234,17 @@
                         disabled
                     />
                 </input-container-component>
+
+                <div class="mt-4">
+                    <table-relacional-component
+                        titulo="Modelos dos carros"
+                        :titulos-table="{
+                            id: { titulo: 'ID', tipo: 'text' },
+                            nome: { titulo: 'Nome', tipo: 'text' },
+                            imagem: { titulo: 'Imagem', tipo: 'imagem' },
+                        }"
+                    ></table-relacional-component>
+                </div>
             </template>
             <template v-slot:rodape>
                 <button

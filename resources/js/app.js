@@ -13,6 +13,7 @@ import { createStore } from "vuex";
 const store = createStore({
     state: {
         item: {},
+        itensRelacionais: [],
         transacao: {
             status: "",
             mensagem: "",
@@ -48,6 +49,9 @@ app.component("input-container-component", InputContainer);
 
 import Table from "./components/Table.vue";
 app.component("table-component", Table);
+
+import TableRelacional from "./components/TableRelacional.vue";
+app.component("table-relacional-component", TableRelacional);
 
 import Card from "./components/Card.vue";
 app.component("card-component", Card);

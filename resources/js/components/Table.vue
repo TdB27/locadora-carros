@@ -78,8 +78,27 @@
 
 <script>
 export default {
-    props: ["dados", "titulos", "visualizar", "atualizar", "remover"],
+    props: [
+        "dados",
+        "dadosRelacionais",
+        "titulos",
+        "visualizar",
+        "atualizar",
+        "remover",
+    ],
     computed: {
+        arrDadosRelacionais() {
+            let arr = [];
+            let dados = this.dadosRelacionais.dados;
+
+            this.dadosRelacionais.campoRelacional.map((a) => {
+                dados.forEach((d) => {
+                    arr.push(d[a]);
+                });
+            });
+
+            return arr;
+        },
         dadosFiltrados() {
             let campos = Object.keys(this.titulos);
             let dadosFiltrados = [];
@@ -101,6 +120,14 @@ export default {
             this.$store.state.transacao.mensagem = "";
             this.$store.state.transacao.dados = "";
             this.$store.state.item = obj;
+            this.$store.state.itensRelacionais = [];
+
+            this.arrDadosRelacionais.map((dados) => {
+                dados.forEach((d) => {
+                    if (d[this.dadosRelacionais.idRelacional] == obj.id)
+                        this.$store.state.itensRelacionais.push(d);
+                });
+            });
         },
     },
 };
