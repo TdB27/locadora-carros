@@ -13,14 +13,7 @@
 -   Vuex
 -   Bootstrap
 
-### Funções já criadas
-
--   Marcas
--   Modelos
--   Carros
--   Clientes
--   Locações
-
+### Módulos do projeto
 #### Marcas
 
 -   Api (Create, store, update, delete)
