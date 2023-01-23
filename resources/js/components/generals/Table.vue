@@ -28,11 +28,10 @@
                             {{ $filters.formataDataTempo(valor) }}
                         </span>
                         <span v-if="titulos[chaveValor].tipo == 'imagem'">
-                            <img
-                                :src="'/storage/' + valor"
-                                width="30"
-                                height="30"
-                            />
+                            <img :src="'/storage/' + valor" height="30" />
+                        </span>
+                        <span v-if="titulos[chaveValor].tipo == 'boolean'">
+                            {{ valor == 0 ? "Não" : "Sim" }}
                         </span>
                     </td>
                     <td

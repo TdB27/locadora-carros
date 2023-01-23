@@ -89,8 +89,8 @@
                                     tipo: 'text',
                                 },
                                 lugares: { titulo: 'lugares', tipo: 'text' },
-                                air_bag: { titulo: 'Air Bag', tipo: 'text' },
-                                abs: { titulo: 'ABS', tipo: 'text' },
+                                air_bag: { titulo: 'Air Bag', tipo: 'boolean' },
+                                abs: { titulo: 'ABS', tipo: 'boolean' },
                                 created_at: {
                                     titulo: 'Data de criação',
                                     tipo: 'data',
@@ -137,7 +137,7 @@
 
         <!-- inicio do Modal de inclusão de marca -->
         <modal-component id="modalModelo" titulo="Adicionar Modelo">
-            <!-- <template v-slot:alertas>
+            <template v-slot:alertas>
                 <alert-component
                     tipo="success"
                     :detalhes="transacaoDetalhes"
@@ -152,7 +152,7 @@
                     v-if="transacaoStatus == 'erro'"
                 >
                 </alert-component>
-            </template> -->
+            </template>
 
             <template v-slot:conteudo>
                 <div class="mb-3">
@@ -315,9 +315,19 @@ export default {
             busca: {},
             modelos: { data: [] },
             form: {},
+            transacaoDetalhes: {},
+            transacaoStatus: "",
         };
     },
+    mounted() {
+        this.carregarLista();
+    },
     methods: {
+        carregarLista() {
+            axios.get(this.urlBase).then((response) => {
+                this.modelos = response;
+            });
+        },
         carregarImagem(event) {
             this.form.imagem = event.target.files;
         },
@@ -340,10 +350,14 @@ export default {
             axios
                 .post(this.urlBase, formData, config)
                 .then((response) => {
-                    console.log(response);
+                    this.transacaoStatus = "add";
+                    this.carregarLista();
                 })
                 .catch((error) => {
-                    console.log(error);
+                    this.transacaoDetalhes.mensagem =
+                        error.response.data.message;
+                    this.transacaoDetalhes.dados = error.response.data.errors;
+                    this.transacaoStatus = "erro";
                 });
         },
     },

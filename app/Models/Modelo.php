@@ -39,7 +39,7 @@ class Modelo extends Model
             'integer' => 'O campo :attribute precisar ser um número',
             'numero_portas.digits_between' => 'O campo numero portas deve ter entre 1 e 4 portas',
             'lugares.digits_between' => 'O campo lugares deve ter entre 1 e 20 lugares',
-            'boolean' => 'O campo :attibute não reconheceu a requisição',
+            'boolean' => 'O campo :attribute não reconheceu a requisição',
         ];
     }
 

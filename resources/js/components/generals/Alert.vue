@@ -1,13 +1,15 @@
 <template>
     <div :class="estilo" role="alert">
         {{ titulo }}
-        <hr />
-        <span>{{ detalhes.mensagem }}</span>
-        <ul v-if="detalhes.dados">
-            <li v-for="(e, key) in detalhes.dados" :key="key">
-                {{ e[0] }}
-            </li>
-        </ul>
+        <div v-if="detalhes.mensagem">
+            <hr />
+            <span>{{ detalhes.mensagem }}</span>
+            <ul v-if="detalhes.dados">
+                <li v-for="(e, key) in detalhes.dados" :key="key">
+                    {{ e[0] }}
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
