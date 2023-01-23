@@ -142,10 +142,10 @@ class MarcaController extends Controller
         if ($marca === null)
             return response()->json(['erro' => 'Impossivel realizar a exclusão. O recurso pesquisado não existe!'], 404);
 
-        // remove o arquivo antigo caso um novo arquivo tenha sido enviado no request
-        Storage::disk('public')->delete($marca->imagem);
+        if ($marca->delete())
+            // remove o arquivo antigo caso um novo arquivo tenha sido enviado no request
+            Storage::disk('public')->delete($marca->imagem);
 
-        $marca->delete();
         return response()->json(['msg' => 'A marca foi removida com sucesso'], 200);
     }
 }

@@ -235,7 +235,10 @@
                     />
                 </input-container-component>
 
-                <div class="mt-4">
+                <div
+                    class="mt-4"
+                    v-if="$store.state.itensRelacionais.length > 0"
+                >
                     <table-relacional-component
                         titulo="Modelos dos carros"
                         :titulos-table="{
@@ -273,6 +276,14 @@
                     :detalhes="$store.state.transacao"
                     v-if="$store.state.transacao.status == 'erro'"
                 ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro na transação"
+                    :detalhes="{
+                        mensagem: 'Há carros vinculados a essa marca',
+                    }"
+                    v-if="$store.state.itensRelacionais.length > 0"
+                ></alert-component>
             </template>
             <template
                 v-slot:conteudo
@@ -309,7 +320,10 @@
                     type="button"
                     class="btn btn-danger"
                     @click="remover()"
-                    v-if="$store.state.transacao.status != 'sucesso'"
+                    v-if="
+                        $store.state.transacao.status != 'sucesso' &&
+                        $store.state.itensRelacionais.length <= 0
+                    "
                 >
                     Remover
                 </button>
