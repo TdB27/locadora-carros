@@ -43,6 +43,7 @@
                             </div>
                         </div>
                     </template>
+
                     <template v-slot:rodape>
                         <button
                             type="submit"
@@ -91,6 +92,7 @@
                             }"
                         ></table-component>
                     </template>
+
                     <template v-slot:rodape>
                         <div class="row">
                             <div class="col-10">
@@ -200,6 +202,7 @@
         <!-- inicio do Modal de visualização de marca -->
         <modal-component id="modalVisualizarMarca" titulo="Visualizar Marca">
             <template v-slot:alertas></template>
+
             <template v-slot:conteudo>
                 <input-container-component titulo="ID">
                     <input
@@ -230,7 +233,11 @@
                     <input
                         type="text"
                         class="form-control"
-                        :value="$store.state.item.created_at"
+                        :value="
+                            $filters.formataDataTempo(
+                                $store.state.item.created_at
+                            )
+                        "
                         disabled
                     />
                 </input-container-component>
@@ -249,6 +256,7 @@
                     ></table-relacional-component>
                 </div>
             </template>
+
             <template v-slot:rodape>
                 <button
                     type="button"
@@ -285,6 +293,7 @@
                     v-if="$store.state.itensRelacionais.length > 0"
                 ></alert-component>
             </template>
+
             <template
                 v-slot:conteudo
                 v-if="$store.state.transacao.status != 'sucesso'"
@@ -466,6 +475,7 @@ export default {
                     this.transacaoDetalhes = {
                         mensagem: "ID do registro: " + response.data.id,
                     };
+                    this.carregarLista();
                 })
                 .catch((errors) => {
                     this.transacaoStatus = "erro";
@@ -480,10 +490,18 @@ export default {
             let filtro = "";
 
             for (let chave in this.busca) {
+                let percentSign = "%";
                 if (this.busca[chave]) {
                     if (filtro != "") filtro += ";";
 
-                    filtro += chave + ":like:" + this.busca[chave];
+                    if (chave == "id") percentSign = "";
+
+                    filtro +=
+                        chave +
+                        ":like:" +
+                        percentSign +
+                        this.busca[chave] +
+                        percentSign;
                 }
             }
 
