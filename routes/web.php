@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Servicos\MarcaController;
+use App\Http\Controllers\Servicos\MarcasController;
+use App\Http\Controllers\Servicos\ModelosController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +25,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->prefix('/')->group(function () {
-    Route::get('marcas', [MarcaController::class, 'index'])->name('marcas');
+    Route::get('marcas', [MarcasController::class, 'index'])->name('marcas');
+    Route::get('modelos', [ModelosController::class, 'index'])->name('modelos');
 });

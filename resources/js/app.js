@@ -12,6 +12,7 @@ import { createStore } from "vuex";
 
 const store = createStore({
     state: {
+        urlBaseApi: "http://localhost:8000/api/v1",
         item: {},
         itensRelacionais: [],
         transacao: {
@@ -64,6 +65,9 @@ app.component("alert-component", Alert);
 
 import Paginate from "./components/generals/Paginate.vue";
 app.component("paginate-component", Paginate);
+
+import Modelos from "./components/Modelos.vue";
+app.component("modelos-component", Modelos);
 
 /**
  * The following block of code may be used to automatically register your
