@@ -312,6 +312,8 @@ export default {
     data() {
         return {
             urlBase: this.$store.state.urlBaseApi + "/modelo",
+            urlFiltro: "",
+            urlPaginacao: "",
             busca: {},
             modelos: { data: [] },
             form: {},
@@ -324,8 +326,10 @@ export default {
     },
     methods: {
         carregarLista() {
-            axios.get(this.urlBase).then((response) => {
-                this.modelos = response;
+            let url = this.urlBase + "?" + this.urlPaginacao;
+
+            axios.get(url).then((response) => {
+                this.modelos = response.data;
             });
         },
         carregarImagem(event) {
@@ -359,6 +363,12 @@ export default {
                     this.transacaoDetalhes.dados = error.response.data.errors;
                     this.transacaoStatus = "erro";
                 });
+        },
+        paginacao(l) {
+            if (l.url) {
+                this.urlPaginacao = l.url.split("?")[1];
+                this.carregarLista();
+            }
         },
     },
 };
