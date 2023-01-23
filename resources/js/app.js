@@ -44,25 +44,25 @@ app.component("home-component", Home);
 import Marcas from "./components/Marcas.vue";
 app.component("marcas-component", Marcas);
 
-import InputContainer from "./components/InputContainer.vue";
+import InputContainer from "./components/generals/InputContainer.vue";
 app.component("input-container-component", InputContainer);
 
-import Table from "./components/Table.vue";
+import Table from "./components/generals/Table.vue";
 app.component("table-component", Table);
 
-import TableRelacional from "./components/TableRelacional.vue";
+import TableRelacional from "./components/generals/TableRelacional.vue";
 app.component("table-relacional-component", TableRelacional);
 
-import Card from "./components/Card.vue";
+import Card from "./components/generals/Card.vue";
 app.component("card-component", Card);
 
-import Modal from "./components/Modal.vue";
+import Modal from "./components/generals/Modal.vue";
 app.component("modal-component", Modal);
 
-import Alert from "./components/Alert.vue";
+import Alert from "./components/generals/Alert.vue";
 app.component("alert-component", Alert);
 
-import Paginate from "./components/Paginate.vue";
+import Paginate from "./components/generals/Paginate.vue";
 app.component("paginate-component", Paginate);
 
 /**
