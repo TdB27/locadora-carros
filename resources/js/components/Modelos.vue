@@ -120,66 +120,56 @@
             </template>
 
             <template v-slot:conteudo>
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Marcas"
-                        id="novaMarca"
-                        id-help="novaMarca"
-                        texto-ajuda="Informe a marca do modelo"
+                <input-container-component
+                    titulo="Marcas"
+                    id="novaMarca"
+                    id-help="novaMarca"
+                    texto-ajuda="Informe a marca do modelo"
+                >
+                    <select
+                        class="form-select"
+                        v-model="form.marca_id"
+                        aria-label="novaMarca"
                     >
-                        <select
-                            class="form-select"
-                            v-model="form.marca_id"
-                            aria-label="novaMarca"
-                        >
-                            <option
-                                v-for="m in marcas"
-                                :key="m.id"
-                                :value="m.id"
-                            >
-                                {{ m.nome }}
-                            </option>
-                        </select>
-                    </input-container-component>
-                </div>
+                        <option v-for="m in marcas" :key="m.id" :value="m.id">
+                            {{ m.nome }}
+                        </option>
+                    </select>
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Nome da Marca"
+                <input-container-component
+                    titulo="Nome da Marca"
+                    id="novoNome"
+                    id-help="novoNomeHelp"
+                    texto-ajuda="Informe o Nome do Modelo"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
                         id="novoNome"
-                        id-help="novoNomeHelp"
-                        texto-ajuda="Informe o Nome do Modelo"
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="novoNome"
-                            aria-describedby="novoNomeHelp"
-                            placeholder="Nome do Modelo"
-                            v-model="form.nome"
-                        />
-                    </input-container-component>
-                </div>
+                        aria-describedby="novoNomeHelp"
+                        placeholder="Nome do Modelo"
+                        v-model="form.nome"
+                    />
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Image"
+                <input-container-component
+                    titulo="Image"
+                    id="novaImagem"
+                    id-help="novaImagemHelp"
+                    texto-ajuda="Selecione uma imagem no formato PNG"
+                >
+                    <input
+                        type="file"
+                        class="form-control"
                         id="novaImagem"
-                        id-help="novaImagemHelp"
-                        texto-ajuda="Selecione uma imagem no formato PNG"
-                    >
-                        <input
-                            type="file"
-                            class="form-control"
-                            id="novaImagem"
-                            aria-describedby="novaImagemHelp"
-                            placeholder="Selecione uma imagem"
-                            @change="carregarImagem($event)"
-                        />
-                    </input-container-component>
-                </div>
+                        aria-describedby="novaImagemHelp"
+                        placeholder="Selecione uma imagem"
+                        @change="carregarImagem($event)"
+                    />
+                </input-container-component>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Numero de Portas"
                         id="novaNumeroPortas"
@@ -197,7 +187,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Lugares"
                         id="novoLugares"
@@ -270,7 +260,7 @@
         <!-- inicio do Modal de filtros de modelos -->
         <modal-component id="modalFiltros" titulo="Filtrar Modelo">
             <template v-slot:conteudo>
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="ID"
                         id="filtroId"
@@ -287,47 +277,39 @@
                     </input-container-component>
                 </div>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Marcas"
-                        id="novaMarca"
-                        id-help=""
-                        texto-ajuda=""
+                <input-container-component
+                    titulo="Marcas"
+                    id="novaMarca"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <select
+                        class="form-select"
+                        v-model="busca.marca_id"
+                        aria-label="novaMarca"
                     >
-                        <select
-                            class="form-select"
-                            v-model="busca.marca_id"
-                            aria-label="novaMarca"
-                        >
-                            <option
-                                v-for="m in marcas"
-                                :key="m.id"
-                                :value="m.id"
-                            >
-                                {{ m.nome }}
-                            </option>
-                        </select>
-                    </input-container-component>
-                </div>
+                        <option v-for="m in marcas" :key="m.id" :value="m.id">
+                            {{ m.nome }}
+                        </option>
+                    </select>
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Nome da Marca"
-                        id="filtroNome"
-                        id-help=""
-                        texto-ajuda=""
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="filtro"
-                            placeholder="Nome do Modelo"
-                            v-model="busca.nome"
-                        />
-                    </input-container-component>
-                </div>
+                <input-container-component
+                    titulo="Nome da Marca"
+                    id="filtroNome"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="filtro"
+                        placeholder="Nome do Modelo"
+                        v-model="busca.nome"
+                    />
+                </input-container-component>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Numero de Portas"
                         id="filtroNumeroPortas"
@@ -344,7 +326,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Lugares"
                         id="filtroNovoLugares"
@@ -433,66 +415,56 @@
             </template>
 
             <template v-slot:conteudo>
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Marcas"
-                        id="atualizarMarca"
-                        id-help="atualizarMarca"
-                        texto-ajuda="Informe a marca do modelo"
+                <input-container-component
+                    titulo="Marcas"
+                    id="atualizarMarca"
+                    id-help="atualizarMarca"
+                    texto-ajuda="Informe a marca do modelo"
+                >
+                    <select
+                        class="form-select"
+                        v-model="$store.state.item.marca_id"
+                        aria-label="atualizarMarca"
                     >
-                        <select
-                            class="form-select"
-                            v-model="$store.state.item.marca_id"
-                            aria-label="atualizarMarca"
-                        >
-                            <option
-                                v-for="m in marcas"
-                                :key="m.id"
-                                :value="m.id"
-                            >
-                                {{ m.nome }}
-                            </option>
-                        </select>
-                    </input-container-component>
-                </div>
+                        <option v-for="m in marcas" :key="m.id" :value="m.id">
+                            {{ m.nome }}
+                        </option>
+                    </select>
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Nome da Marca"
+                <input-container-component
+                    titulo="Nome da Marca"
+                    id="atualizarNome"
+                    id-help="atualizarNomeHelp"
+                    texto-ajuda="Informe o Nome do Modelo"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
                         id="atualizarNome"
-                        id-help="atualizarNomeHelp"
-                        texto-ajuda="Informe o Nome do Modelo"
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="atualizarNome"
-                            aria-describedby="atualizarNomeHelp"
-                            placeholder="Nome do Modelo"
-                            v-model="$store.state.item.nome"
-                        />
-                    </input-container-component>
-                </div>
+                        aria-describedby="atualizarNomeHelp"
+                        placeholder="Nome do Modelo"
+                        v-model="$store.state.item.nome"
+                    />
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Image"
+                <input-container-component
+                    titulo="Image"
+                    id="atualizarImagem"
+                    id-help="atualizarImagemHelp"
+                    texto-ajuda="Selecione uma imagem no formato PNG"
+                >
+                    <input
+                        type="file"
+                        class="form-control"
                         id="atualizarImagem"
-                        id-help="atualizarImagemHelp"
-                        texto-ajuda="Selecione uma imagem no formato PNG"
-                    >
-                        <input
-                            type="file"
-                            class="form-control"
-                            id="atualizarImagem"
-                            aria-describedby="atualizarImagemHelp"
-                            placeholder="Selecione uma imagem"
-                            @change="carregarImagem($event)"
-                        />
-                    </input-container-component>
-                </div>
+                        aria-describedby="atualizarImagemHelp"
+                        placeholder="Selecione uma imagem"
+                        @change="carregarImagem($event)"
+                    />
+                </input-container-component>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Numero de Portas"
                         id="atualizarNumeroPortas"
@@ -510,7 +482,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Lugares"
                         id="atualizarLugares"
@@ -590,48 +562,44 @@
             :titulo="'Visualizar Modelo ' + $store.state.item.id"
         >
             <template v-slot:conteudo>
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Marcas"
+                <input-container-component
+                    titulo="Marcas"
+                    id="visualizarMarca"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
                         id="visualizarMarca"
-                        id-help=""
-                        texto-ajuda=""
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="visualizarMarca"
-                            placeholder="Marca"
-                            :value="
-                                $filters.dadosTabelaRelacional(
-                                    marcas,
-                                    $store.state.item.marca_id,
-                                    'nome'
-                                )
-                            "
-                            disabled
-                        />
-                    </input-container-component>
-                </div>
+                        placeholder="Marca"
+                        :value="
+                            $filters.dadosTabelaRelacional(
+                                marcas,
+                                $store.state.item.marca_id,
+                                'nome'
+                            )
+                        "
+                        disabled
+                    />
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Nome da Marca"
+                <input-container-component
+                    titulo="Nome da Marca"
+                    id="atualizarNome"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
                         id="atualizarNome"
-                        id-help=""
-                        texto-ajuda=""
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="atualizarNome"
-                            :value="$store.state.item.nome"
-                            disabled
-                        />
-                    </input-container-component>
-                </div>
+                        :value="$store.state.item.nome"
+                        disabled
+                    />
+                </input-container-component>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Numero de Portas"
                         id="visualizarNumeroPortas"
@@ -649,7 +617,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Lugares"
                         id="visualizarLugares"
@@ -667,7 +635,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="Air Bag"
                         id="visualizarAirBag"
@@ -686,7 +654,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="mb-3 col-6">
+                <div class="col-6">
                     <input-container-component
                         titulo="ABS"
                         id="visualizarAbs"
@@ -765,60 +733,55 @@
             </template>
 
             <template v-slot:conteudo>
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Marca"
+                <input-container-component
+                    titulo="Marca"
+                    id="visualizarMarca"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
                         id="visualizarMarca"
-                        id-help=""
-                        texto-ajuda=""
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="visualizarMarca"
-                            placeholder="Marca"
-                            :value="
-                                $filters.dadosTabelaRelacional(
-                                    marcas,
-                                    $store.state.item.marca_id,
-                                    'nome'
-                                )
-                            "
-                            disabled
-                        />
-                    </input-container-component>
-                </div>
+                        placeholder="Marca"
+                        :value="
+                            $filters.dadosTabelaRelacional(
+                                marcas,
+                                $store.state.item.marca_id,
+                                'nome'
+                            )
+                        "
+                        disabled
+                    />
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo="Nome da Marca"
+                <input-container-component
+                    titulo="Nome da Marca"
+                    id="atualizarNome"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
                         id="atualizarNome"
-                        id-help=""
-                        texto-ajuda=""
-                    >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="atualizarNome"
-                            :value="$store.state.item.nome"
-                            disabled
-                        />
-                    </input-container-component>
-                </div>
+                        :value="$store.state.item.nome"
+                        disabled
+                    />
+                </input-container-component>
 
-                <div class="mb-3">
-                    <input-container-component
-                        titulo=""
-                        id="atualizarNome"
-                        id-help=""
-                        texto-ajuda=""
-                    >
-                        <img
-                            :src="'/storage/' + $store.state.item.imagem"
-                            height="60"
-                        />
-                    </input-container-component>
-                </div>
+                <input-container-component
+                    titulo=""
+                    id="atualizarNome"
+                    id-help=""
+                    texto-ajuda=""
+                    v-if="$store.state.item.imagem"
+                >
+                    <img
+                        :src="'/storage/' + $store.state.item.imagem"
+                        height="60"
+                    />
+                </input-container-component>
             </template>
 
             <template v-slot:rodape>

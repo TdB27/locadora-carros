@@ -1,5 +1,5 @@
 <template>
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label :for="id" class="form-label"> {{ titulo }} </label>
         <slot></slot>
         <div :id="idHelp" class="form-text">
