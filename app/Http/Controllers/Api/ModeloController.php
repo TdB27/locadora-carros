@@ -155,10 +155,10 @@ class ModeloController extends Controller
         if ($modelo === null)
             return response()->json(['erro' => 'Impossivel realizar a exclusão. O recurso pesquisado não existe!'], 404);
 
-        // remove o arquivo antigo caso um novo arquivo tenha sido enviado no request
-        Storage::disk('public')->delete($modelo->imagem);
+        if ($modelo->delete())
+            // remove o arquivo antigo caso um novo arquivo tenha sido enviado no request
+            Storage::disk('public')->delete($modelo->imagem);
 
-        $modelo->delete();
         return response()->json(['msg ' => 'O modelo foi removida com sucesso'], 200);
     }
 }

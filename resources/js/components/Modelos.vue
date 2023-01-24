@@ -717,6 +717,100 @@
             </template>
         </modal-component>
         <!-- fim do Modal de visualização de modelos -->
+
+        <!-- inicio do Modal de remoção de modelos -->
+        <modal-component
+            id="modalRemoverModelo"
+            :titulo="'Remover Modelo ' + $store.state.item.id"
+        >
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    titulo="Transação realizada com sucesso"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'sucesso'"
+                >
+                </alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro na transação"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'erro'"
+                >
+                </alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <div class="mb-3">
+                    <input-container-component
+                        titulo="Marca"
+                        id="visualizarMarca"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="visualizarMarca"
+                            placeholder="Marca"
+                            :value="
+                                $filters.dadosTabelaRelacional(
+                                    marcas,
+                                    $store.state.item.marca_id,
+                                    'nome'
+                                )
+                            "
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3">
+                    <input-container-component
+                        titulo="Nome da Marca"
+                        id="atualizarNome"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="atualizarNome"
+                            :value="$store.state.item.nome"
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3">
+                    <input-container-component
+                        titulo=""
+                        id="atualizarNome"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <img
+                            :src="'/storage/' + $store.state.item.imagem"
+                            height="60"
+                        />
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+                <button type="button" class="btn btn-danger" @click="remover()">
+                    Remover
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de remoção de modelos -->
     </div>
 </template>
 
@@ -862,6 +956,32 @@ export default {
                     this.transacaoDetalhes.dados = error.response.data.errors;
                     this.transacaoStatus = "erro";
                 });
+        },
+        remover() {
+            let confirmacao = confirm(
+                "Tem certeza que deseja remover esse registro?"
+            );
+
+            if (confirmacao) {
+                let url = this.urlBase + "/" + this.$store.state.item.id;
+
+                let formData = new FormData();
+                formData.append("_method", "delete");
+
+                axios
+                    .post(url, formData)
+                    .then((response) => {
+                        this.$store.state.transacao.status = "sucesso";
+                        this.$store.state.transacao.mensagem =
+                            response.data.msg;
+                        this.carregarLista();
+                    })
+                    .catch((error) => {
+                        this.$store.state.transacao.status = "erro";
+                        this.$store.state.transacao.mensagem =
+                            errors.response.data.erro;
+                    });
+            }
         },
     },
 };
