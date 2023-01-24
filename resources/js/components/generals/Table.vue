@@ -7,12 +7,15 @@
                         {{ t.titulo }}
                     </th>
                     <th
+                        class="text-center"
                         v-if="
                             visualizar.visivel ||
                             atualizar.visivel ||
                             remover.visivel
                         "
-                    ></th>
+                    >
+                        Ações
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -35,39 +38,63 @@
                         </span>
                     </td>
                     <td
+                        class="dropdown text-center"
                         v-if="
                             visualizar.visivel ||
                             atualizar.visivel ||
                             remover.visivel
                         "
                     >
-                        <button
-                            class="btn btn-outline-primary btn-sm me-2"
-                            v-if="visualizar.visivel"
-                            :data-bs-toggle="visualizar.dataToggle"
-                            :data-bs-target="visualizar.dataTarget"
-                            @click="setStore(obj)"
+                        <a
+                            href="#"
+                            class="dropdown-toggle"
+                            data-bs-toggle="dropdown"
                         >
-                            Visualizar
-                        </button>
-                        <button
-                            class="btn btn-outline-primary btn-sm me-2"
-                            v-if="atualizar.visivel"
-                            :data-bs-toggle="atualizar.dataToggle"
-                            :data-bs-target="atualizar.dataTarget"
-                            @click="setStore(obj)"
-                        >
-                            Atualizar
-                        </button>
-                        <button
-                            class="btn btn-outline-danger btn-sm"
-                            v-if="remover.visivel"
-                            :data-bs-toggle="remover.dataToggle"
-                            :data-bs-target="remover.dataTarget"
-                            @click="setStore(obj)"
-                        >
-                            Remover
-                        </button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-three-dots"
+                                viewBox="0 0 16 16"
+                            >
+                                <path
+                                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                                />
+                            </svg>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a
+                                href="#"
+                                class="dropdown-item"
+                                v-if="visualizar.visivel"
+                                :data-bs-toggle="visualizar.dataToggle"
+                                :data-bs-target="visualizar.dataTarget"
+                                @click="setStore(obj)"
+                            >
+                                Visualizar
+                            </a>
+                            <a
+                                href="#"
+                                class="dropdown-item"
+                                v-if="atualizar.visivel"
+                                :data-bs-toggle="atualizar.dataToggle"
+                                :data-bs-target="atualizar.dataTarget"
+                                @click="setStore(obj)"
+                            >
+                                Atualizar
+                            </a>
+                            <a
+                                href="#"
+                                class="dropdown-item"
+                                v-if="remover.visivel"
+                                :data-bs-toggle="remover.dataToggle"
+                                :data-bs-target="remover.dataTarget"
+                                @click="setStore(obj)"
+                            >
+                                Remover
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -131,3 +158,9 @@ export default {
     },
 };
 </script>
+
+<style>
+.dropdown-toggle::after {
+    display: none;
+}
+</style>
