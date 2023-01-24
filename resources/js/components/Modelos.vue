@@ -21,8 +21,8 @@
                             :dados="modelos.data"
                             :dados-relacionais="{
                                 dados: modelos.data,
-                                campoRelacional: null, // modelo pertence a marca
-                                idRelacional: null, // modelo pertence a marca
+                                campoRelacional: ['carros'], // modelo pertence a marca
+                                idRelacional: 'modelo_id', // modelo pertence a marca
                                 tabela: marcas,
                             }"
                             :visualizar="{
@@ -667,7 +667,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="col-6">
+                <div class="mb-3 col-6">
                     <input-container-component
                         titulo="Air Bag"
                         id="visualizarAirBag"
@@ -686,7 +686,7 @@
                     </input-container-component>
                 </div>
 
-                <div class="col-6">
+                <div class="mb-3 col-6">
                     <input-container-component
                         titulo="ABS"
                         id="visualizarAbs"
@@ -703,6 +703,21 @@
                             disabled
                         />
                     </input-container-component>
+                </div>
+
+                <div v-if="$store.state.itensRelacionais.length > 0">
+                    <table-relacional-component
+                        titulo="Carros vinculados"
+                        :titulos-table="{
+                            id: { titulo: 'ID', tipo: 'text' },
+                            placa: { titulo: 'Placa', tipo: 'text' },
+                            disponivel: {
+                                titulo: 'Disponibilidade',
+                                tipo: 'boolean',
+                            },
+                            km: { titulo: 'Km', tipo: 'text' },
+                        }"
+                    ></table-relacional-component>
                 </div>
             </template>
 
@@ -736,6 +751,15 @@
                     titulo="Erro na transação"
                     :detalhes="$store.state.transacao"
                     v-if="$store.state.transacao.status == 'erro'"
+                >
+                </alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro na transação"
+                    :detalhes="{
+                        mensagem: 'Há carros vinculados a esse modelo',
+                    }"
+                    v-if="$store.state.itensRelacionais.length > 0"
                 >
                 </alert-component>
             </template>
@@ -805,7 +829,12 @@
                 >
                     Fechar
                 </button>
-                <button type="button" class="btn btn-danger" @click="remover()">
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    @click="remover()"
+                    v-if="$store.state.itensRelacionais.length <= 0"
+                >
                     Remover
                 </button>
             </template>
@@ -974,9 +1003,11 @@ export default {
                         this.$store.state.transacao.status = "sucesso";
                         this.$store.state.transacao.mensagem =
                             response.data.msg;
+
+                        this.urlPaginacao = "page=1";
                         this.carregarLista();
                     })
-                    .catch((error) => {
+                    .catch((errors) => {
                         this.$store.state.transacao.status = "erro";
                         this.$store.state.transacao.mensagem =
                             errors.response.data.erro;

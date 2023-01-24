@@ -288,7 +288,7 @@
                     tipo="danger"
                     titulo="Erro na transação"
                     :detalhes="{
-                        mensagem: 'Há carros vinculados a essa marca',
+                        mensagem: 'Há modelos vinculados a essa marca',
                     }"
                     v-if="$store.state.itensRelacionais.length > 0"
                 ></alert-component>

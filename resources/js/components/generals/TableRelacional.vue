@@ -16,6 +16,9 @@
                         <span v-if="titulosTable[keyObj].tipo == 'imagem'">
                             <img :src="'/storage/' + valor" height="30" />
                         </span>
+                        <span v-if="titulosTable[keyObj].tipo == 'boolean'">
+                            {{ valor == 0 ? "Não" : "Sim" }}
+                        </span>
                     </td>
                 </tr>
             </tbody>
