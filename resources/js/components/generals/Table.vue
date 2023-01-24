@@ -38,7 +38,8 @@
                         </span>
                         <span v-if="titulos[chaveValor].tipo == 'relational'">
                             {{
-                                dadosTabelaRelacional(
+                                $filters.dadosTabelaRelacional(
+                                    dadosRelacionais.tabela,
                                     valor,
                                     titulos[chaveValor].campo
                                 )
@@ -152,14 +153,6 @@ export default {
         },
     },
     methods: {
-        dadosTabelaRelacional(id, campo) {
-            let dado = {};
-            this.dadosRelacionais.tabela.forEach((i) => {
-                if (i.id == id) dado = i;
-            });
-
-            return dado[campo];
-        },
         setStore(obj) {
             this.$store.state.transacao.status = "";
             this.$store.state.transacao.mensagem = "";

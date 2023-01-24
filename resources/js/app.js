@@ -107,6 +107,15 @@ app.config.globalProperties.$filters = {
 
         return data + " " + tempo;
     },
+
+    dadosTabelaRelacional(tabela, id, campo) {
+        let dado = {};
+        tabela.forEach((i) => {
+            if (i.id == id) dado = i;
+        });
+
+        return dado[campo];
+    },
 };
 
 app.mount("#app");

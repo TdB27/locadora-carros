@@ -583,6 +583,140 @@
             </template>
         </modal-component>
         <!-- fim do Modal de atualização de modelos -->
+
+        <!-- inicio do Modal de visualização de modelos -->
+        <modal-component
+            id="modalVisualizarModelo"
+            :titulo="'Visualizar Modelo ' + $store.state.item.id"
+        >
+            <template v-slot:conteudo>
+                <div class="mb-3">
+                    <input-container-component
+                        titulo="Marcas"
+                        id="visualizarMarca"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="visualizarMarca"
+                            placeholder="Marca"
+                            :value="
+                                $filters.dadosTabelaRelacional(
+                                    marcas,
+                                    $store.state.item.marca_id,
+                                    'nome'
+                                )
+                            "
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3">
+                    <input-container-component
+                        titulo="Nome da Marca"
+                        id="atualizarNome"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="atualizarNome"
+                            :value="$store.state.item.nome"
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3 col-6">
+                    <input-container-component
+                        titulo="Numero de Portas"
+                        id="visualizarNumeroPortas"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="visualizarNumeroPortas"
+                            placeholder="Numero de Portas"
+                            :value="$store.state.item.numero_portas"
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3 col-6">
+                    <input-container-component
+                        titulo="Lugares"
+                        id="visualizarLugares"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="visualizarLugares"
+                            placeholder="Lugares"
+                            :value="$store.state.item.lugares"
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Air Bag"
+                        id="visualizarAirBag"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="visualizarAirBag"
+                            :value="
+                                $store.state.item.air_bag == '0' ? 'Não' : 'Sim'
+                            "
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="ABS"
+                        id="visualizarAbs"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="visualizarAbs"
+                            :value="
+                                $store.state.item.abs == '0' ? 'Não' : 'Sim'
+                            "
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de visualização de modelos -->
     </div>
 </template>
 
