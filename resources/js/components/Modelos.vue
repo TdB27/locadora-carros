@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <!-- inicio do button de busca -->
                 <button
                     type="button"
@@ -21,8 +21,9 @@
                             :dados="modelos.data"
                             :dados-relacionais="{
                                 dados: modelos.data,
-                                campoRelacional: ['marca'],
-                                idRelacional: 'marca_id',
+                                campoRelacional: null, // modelo pertence a marca
+                                idRelacional: null, // modelo pertence a marca
+                                tabela: marcas,
                             }"
                             :visualizar="{
                                 visivel: true,
@@ -41,6 +42,11 @@
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },
+                                marca_id: {
+                                    titulo: 'Marca',
+                                    tipo: 'relational',
+                                    campo: 'nome',
+                                },
                                 nome: { titulo: 'Nome', tipo: 'text' },
                                 imagem: { titulo: 'Imagem', tipo: 'imagem' },
                                 numero_portas: {
@@ -403,6 +409,180 @@
             </template>
         </modal-component>
         <!-- fim do Modal de filtros de modelos -->
+
+        <!-- inicio do Modal de atualização de modelos -->
+        <modal-component
+            id="modalAtualizarModelo"
+            :titulo="'Atualizar Modelo ' + $store.state.item.id"
+        >
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    :detalhes="transacaoDetalhes"
+                    titulo="Cadastro realizado com sucesso"
+                    v-if="transacaoStatus == 'add'"
+                >
+                </alert-component>
+                <alert-component
+                    tipo="danger"
+                    :detalhes="transacaoDetalhes"
+                    titulo="Erro ao tentar salvar a marca"
+                    v-if="transacaoStatus == 'erro'"
+                >
+                </alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <div class="mb-3">
+                    <input-container-component
+                        titulo="Marcas"
+                        id="atualizarMarca"
+                        id-help="atualizarMarca"
+                        texto-ajuda="Informe a marca do modelo"
+                    >
+                        <select
+                            class="form-select"
+                            v-model="$store.state.item.marca_id"
+                            aria-label="atualizarMarca"
+                        >
+                            <option
+                                v-for="m in marcas"
+                                :key="m.id"
+                                :value="m.id"
+                            >
+                                {{ m.nome }}
+                            </option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3">
+                    <input-container-component
+                        titulo="Nome da Marca"
+                        id="atualizarNome"
+                        id-help="atualizarNomeHelp"
+                        texto-ajuda="Informe o Nome do Modelo"
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="atualizarNome"
+                            aria-describedby="atualizarNomeHelp"
+                            placeholder="Nome do Modelo"
+                            v-model="$store.state.item.nome"
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3">
+                    <input-container-component
+                        titulo="Image"
+                        id="atualizarImagem"
+                        id-help="atualizarImagemHelp"
+                        texto-ajuda="Selecione uma imagem no formato PNG"
+                    >
+                        <input
+                            type="file"
+                            class="form-control"
+                            id="atualizarImagem"
+                            aria-describedby="atualizarImagemHelp"
+                            placeholder="Selecione uma imagem"
+                            @change="carregarImagem($event)"
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3 col-6">
+                    <input-container-component
+                        titulo="Numero de Portas"
+                        id="atualizarNumeroPortas"
+                        id-help="atualizarNumeroPortas"
+                        texto-ajuda="Informe o Numero de Portas"
+                    >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="atualizarNumeroPortas"
+                            aria-describedby="atualizarNumeroPortas"
+                            placeholder="Numero de Portas"
+                            v-model="$store.state.item.numero_portas"
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="mb-3 col-6">
+                    <input-container-component
+                        titulo="Lugares"
+                        id="atualizarLugares"
+                        id-help="atualizarLugares"
+                        texto-ajuda="Informe a quantidade de lugares"
+                    >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="atualizarLugares"
+                            aria-describedby="atualizarLugares"
+                            placeholder="Lugares"
+                            v-model="$store.state.item.lugares"
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Air Bag"
+                        id="atualizarAirBag"
+                        id-help="atualizarAirBag"
+                        texto-ajuda="Informe se há Air Bag"
+                    >
+                        <select
+                            class="form-select"
+                            v-model="$store.state.item.air_bag"
+                            aria-label="atualizarAirBag"
+                        >
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="ABS"
+                        id="atualizarAbs"
+                        id-help="atualizarAbs"
+                        texto-ajuda="Informe se há ABS"
+                    >
+                        <select
+                            class="form-select"
+                            v-model="$store.state.item.abs"
+                            aria-label="atualizarAbs"
+                        >
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="atualizar()"
+                >
+                    Atualizar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de atualização de modelos -->
     </div>
 </template>
 
@@ -438,6 +618,8 @@ export default {
             this.form.imagem = event.target.files;
         },
         salvar() {
+            this.transacaoDetalhes = {};
+
             let formData = new FormData();
             formData.append("marca_id", this.form.marca_id);
             formData.append("nome", this.form.nome);
@@ -457,6 +639,7 @@ export default {
                 .post(this.urlBase, formData, config)
                 .then((response) => {
                     this.transacaoStatus = "add";
+                    novaImagem.value = "";
                     this.carregarLista();
                 })
                 .catch((error) => {
@@ -504,6 +687,47 @@ export default {
             }
 
             this.carregarLista();
+        },
+        atualizar() {
+            this.transacaoDetalhes = {};
+
+            let url = this.urlBase + "/" + this.$store.state.item.id;
+
+            let formData = new FormData();
+            formData.append("marca_id", this.$store.state.item.marca_id);
+            formData.append("nome", this.$store.state.item.nome);
+
+            if (this.form.imagem)
+                formData.append("imagem", this.form.imagem[0]);
+
+            formData.append(
+                "numero_portas",
+                this.$store.state.item.numero_portas
+            );
+            formData.append("lugares", this.$store.state.item.lugares);
+            formData.append("air_bag", this.$store.state.item.air_bag);
+            formData.append("abs", this.$store.state.item.abs);
+            formData.append("_method", "patch");
+
+            let config = {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            };
+
+            axios
+                .post(url, formData, config)
+                .then((response) => {
+                    this.transacaoStatus = "add";
+                    atualizarImagem.value = "";
+                    this.carregarLista();
+                })
+                .catch((error) => {
+                    this.transacaoDetalhes.mensagem =
+                        error.response.data.message;
+                    this.transacaoDetalhes.dados = error.response.data.errors;
+                    this.transacaoStatus = "erro";
+                });
         },
     },
 };

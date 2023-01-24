@@ -36,6 +36,14 @@
                         <span v-if="titulos[chaveValor].tipo == 'boolean'">
                             {{ valor == 0 ? "Não" : "Sim" }}
                         </span>
+                        <span v-if="titulos[chaveValor].tipo == 'relational'">
+                            {{
+                                dadosTabelaRelacional(
+                                    valor,
+                                    titulos[chaveValor].campo
+                                )
+                            }}
+                        </span>
                     </td>
                     <td
                         class="dropdown text-center"
@@ -115,13 +123,16 @@ export default {
     computed: {
         arrDadosRelacionais() {
             let arr = [];
-            let dados = this.dadosRelacionais.dados;
 
-            this.dadosRelacionais.campoRelacional.map((a) => {
-                dados.forEach((d) => {
-                    arr.push(d[a]);
+            if (this.dadosRelacionais.campoRelacional) {
+                let dados = this.dadosRelacionais.dados;
+
+                this.dadosRelacionais.campoRelacional.map((a) => {
+                    dados.forEach((d) => {
+                        arr.push(d[a]);
+                    });
                 });
-            });
+            }
 
             return arr;
         },
@@ -141,6 +152,14 @@ export default {
         },
     },
     methods: {
+        dadosTabelaRelacional(id, campo) {
+            let dado = {};
+            this.dadosRelacionais.tabela.forEach((i) => {
+                if (i.id == id) dado = i;
+            });
+
+            return dado[campo];
+        },
         setStore(obj) {
             this.$store.state.transacao.status = "";
             this.$store.state.transacao.mensagem = "";
@@ -148,12 +167,14 @@ export default {
             this.$store.state.item = obj;
             this.$store.state.itensRelacionais = [];
 
-            this.arrDadosRelacionais.map((dados) => {
-                dados.forEach((d) => {
-                    if (d[this.dadosRelacionais.idRelacional] == obj.id)
-                        this.$store.state.itensRelacionais.push(d);
+            if (this.dadosRelacionais.idRelacional) {
+                this.arrDadosRelacionais.map((dados) => {
+                    dados.forEach((d) => {
+                        if (d[this.dadosRelacionais.idRelacional] == obj.id)
+                            this.$store.state.itensRelacionais.push(d);
+                    });
                 });
-            });
+            }
         },
     },
 };
