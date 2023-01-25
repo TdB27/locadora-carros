@@ -116,6 +116,18 @@ app.config.globalProperties.$filters = {
 
         return dado[campo];
     },
+
+    translatePaginate(label) {
+        let arr = label.split(" ");
+        let filter = arr.map((item, index) => {
+            if (item == "Previous") item = "Anterior";
+            if (item == "Next") item = "Proximo";
+
+            return item;
+        });
+
+        return filter.join(" ");
+    },
 };
 
 app.mount("#app");

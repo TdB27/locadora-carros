@@ -1,60 +1,18 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <!-- inicio do card de busca -->
-                <card-component titulo="Busca de Marcas">
-                    <template v-slot:conteudo>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <input-container-component
-                                    titulo="ID"
-                                    id="inputId"
-                                    id-help="idHelp"
-                                    texto-ajuda="Opcional. Informe o ID do registro"
-                                >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="inputId"
-                                        aria-describedby="idHelp"
-                                        placeholder="ID"
-                                        v-model="busca.id"
-                                    />
-                                </input-container-component>
-                            </div>
-
-                            <div class="col mb-3">
-                                <input-container-component
-                                    titulo="Nome da Marca"
-                                    id="inputNome"
-                                    id-help="NomeHelp"
-                                    texto-ajuda="Opcional. Informe o Nome da marca"
-                                >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="inputNome"
-                                        aria-describedby="NomeHelp"
-                                        placeholder="Nome da marca"
-                                        v-model="busca.nome"
-                                    />
-                                </input-container-component>
-                            </div>
-                        </div>
-                    </template>
-
-                    <template v-slot:rodape>
-                        <button
-                            type="submit"
-                            class="btn btn-secondary btn-sm float-end"
-                            @click="pesquisar()"
-                        >
-                            Pesquisar
-                        </button>
-                    </template>
-                </card-component>
-                <!-- fim do card de busca -->
+            <div class="col-md-10">
+                <!-- inicio do button de busca -->
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-sm mb-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalFiltros"
+                    @click="busca = {}"
+                >
+                    Filtros
+                </button>
+                <!-- fim do button de busca -->
 
                 <!-- inicio do card de marcas -->
                 <card-component titulo="Relação de Marcas">
@@ -107,7 +65,14 @@
                                         "
                                         @click.prevent="paginacao(l)"
                                     >
-                                        <a class="page-link" v-html="l.label">
+                                        <a
+                                            class="page-link"
+                                            v-html="
+                                                $filters.translatePaginate(
+                                                    l.label
+                                                )
+                                            "
+                                        >
                                         </a>
                                     </li>
                                 </paginate-component>
@@ -414,6 +379,64 @@
             </template>
         </modal-component>
         <!-- fim do Modal de atualização de marca -->
+
+        <!-- inicio do Modal de filtros de modelos -->
+        <modal-component id="modalFiltros" titulo="Filtrar Marca">
+            <template v-slot:conteudo>
+                <div class="col-6">
+                    <input-container-component
+                        titulo="ID"
+                        id="filtroId"
+                        id-help="idHelp"
+                        texto-ajuda="Opcional. Informe o ID da marca"
+                    >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="filtroId"
+                            placeholder="ID"
+                            aria-describedby="idHelp"
+                            v-model="busca.id"
+                        />
+                    </input-container-component>
+                </div>
+
+                <input-container-component
+                    titulo="Nome da Marca"
+                    id="inputNome"
+                    id-help="NomeHelp"
+                    texto-ajuda="Opcional. Informe o Nome da marca"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="inputNome"
+                        aria-describedby="NomeHelp"
+                        placeholder="Nome da marca"
+                        v-model="busca.nome"
+                    />
+                </input-container-component>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+                    @click="filtrar()"
+                >
+                    Filtrar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de filtros de modelos -->
     </div>
 </template>
 
@@ -486,7 +509,7 @@ export default {
                     };
                 });
         },
-        pesquisar() {
+        filtrar() {
             let filtro = "";
 
             for (let chave in this.busca) {

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -56,7 +56,7 @@
                     >
                         <a
                             href="#"
-                            class="dropdown-toggle"
+                            class="dropdown-toggle dropdown-toggle-table"
                             data-bs-toggle="dropdown"
                         >
                             <svg
@@ -174,7 +174,7 @@ export default {
 </script>
 
 <style>
-.dropdown-toggle::after {
+.dropdown-toggle-table::after {
     display: none;
 }
 </style>

@@ -78,7 +78,14 @@
                                         "
                                         @click.prevent="paginacao(l)"
                                     >
-                                        <a class="page-link" v-html="l.label">
+                                        <a
+                                            class="page-link"
+                                            v-html="
+                                                $filters.translatePaginate(
+                                                    l.label
+                                                )
+                                            "
+                                        >
                                         </a>
                                     </li>
                                 </paginate-component>
