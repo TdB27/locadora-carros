@@ -33,40 +33,40 @@ const app = createApp({ store });
 
 app.use(store);
 
-import ExampleComponent from "./components/ExampleComponent.vue";
+import ExampleComponent from "./ExampleComponent.vue";
 app.component("example-component", ExampleComponent);
 
-import Login from "./components/Login.vue";
+import Login from "./pages/Login.vue";
 app.component("login-component", Login);
 
-import Home from "./components/Home.vue";
+import Home from "./pages/Home.vue";
 app.component("home-component", Home);
 
-import Marcas from "./components/Marcas.vue";
+import Marcas from "./pages/Marcas.vue";
 app.component("marcas-component", Marcas);
 
-import InputContainer from "./components/generals/InputContainer.vue";
+import InputContainer from "./components/InputContainer.vue";
 app.component("input-container-component", InputContainer);
 
-import Table from "./components/generals/Table.vue";
+import Table from "./components/Table.vue";
 app.component("table-component", Table);
 
-import TableRelacional from "./components/generals/TableRelacional.vue";
+import TableRelacional from "./components/TableRelacional.vue";
 app.component("table-relacional-component", TableRelacional);
 
-import Card from "./components/generals/Card.vue";
+import Card from "./components/Card.vue";
 app.component("card-component", Card);
 
-import Modal from "./components/generals/Modal.vue";
+import Modal from "./components/Modal.vue";
 app.component("modal-component", Modal);
 
-import Alert from "./components/generals/Alert.vue";
+import Alert from "./components/Alert.vue";
 app.component("alert-component", Alert);
 
-import Paginate from "./components/generals/Paginate.vue";
+import Paginate from "./components/Paginate.vue";
 app.component("paginate-component", Paginate);
 
-import Modelos from "./components/Modelos.vue";
+import Modelos from "./pages/Modelos.vue";
 app.component("modelos-component", Modelos);
 
 /**
