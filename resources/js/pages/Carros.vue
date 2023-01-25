@@ -25,6 +25,7 @@
                                 dados: carros.data,
                                 campoRelacional: null,
                                 idRelacional: null,
+                                tabela: modelos,
                             }"
                             :visualizar="{
                                 visivel: true,
@@ -43,8 +44,17 @@
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },
-                                nome: { titulo: 'Nome', tipo: 'text' },
-                                imagem: { titulo: 'Imagem', tipo: 'imagem' },
+                                modelo_id: {
+                                    titulo: 'Modelo',
+                                    tipo: 'relational',
+                                    campo: 'nome',
+                                },
+                                placa: { titulo: 'Placa', tipo: 'text' },
+                                disponivel: {
+                                    titulo: 'Disponível',
+                                    tipo: 'boolean',
+                                },
+                                km: { titulo: 'Km', tipo: 'text' },
                                 created_at: {
                                     titulo: 'Data de criação',
                                     tipo: 'data',
@@ -98,6 +108,21 @@
 
         <!-- inicio do Modal de inclusão de marca -->
         <modal-component id="modalCarro" titulo="Vincular Carro a um Modelo">
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    titulo="Cadastro realizado com sucesso"
+                    :detalhes="transacaoDetalhes"
+                    v-if="transacaoStatus == 'add'"
+                ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro ao tentar salvar a marca"
+                    :detalhes="transacaoDetalhes"
+                    v-if="transacaoStatus == 'erro'"
+                ></alert-component>
+            </template>
+
             <template v-slot:conteudo>
                 <input-container-component
                     titulo="Modelo"
@@ -139,14 +164,14 @@
                         id-help="novoDisponivelHelp"
                         texto-ajuda="Informe se o carro está disponível"
                     >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="novoDisponivel"
-                            aria-describedby="novoDisponivelHelp"
-                            placeholder="Placa do Carro"
+                        <select
+                            class="form-select"
                             v-model="form.disponivel"
-                        />
+                            aria-label="novoDisponivelHelp"
+                        >
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
                     </input-container-component>
                 </div>
 
@@ -191,10 +216,61 @@ export default {
     props: ["modelos"],
     data() {
         return {
+            urlBase: this.$store.state.urlBaseApi + "/carro",
+            urlFiltro: "",
+            urlPaginacao: "",
+
             carros: { data: [] },
             busca: {},
             form: {},
+            transacaoStatus: "",
+            transacaoDetalhes: {},
         };
+    },
+    mounted() {
+        this.carregarLista();
+    },
+    methods: {
+        carregarLista() {
+            let url = this.urlBase + "?" + this.urlPaginacao + this.urlFiltro;
+
+            axios
+                .get(url)
+                .then((response) => {
+                    this.carros = response.data;
+                })
+                .catch((errors) => {
+                    console.log(erros.response);
+                });
+        },
+        paginacao(l) {
+            if (l.url) {
+                this.urlPaginacao = l.url.split("?")[1];
+                this.carregarLista();
+            }
+        },
+        salvar() {
+            axios
+                .post(this.urlBase, this.form)
+                .then((response) => {
+                    console.log(response);
+                    this.transacaoDetalhes = {
+                        mensagem: "ID do Registro: " + response.data.id,
+                    };
+                    this.transacaoStatus = "add";
+                    this.carregarLista();
+                })
+                .catch((errors) => {
+                    this.transacaoDetalhes = {
+                        mensagem: errors.response.data.message,
+                        dados: errors.response.data.errors,
+                    };
+                    this.transacaoStatus = "erro";
+                    console.log(errors.response);
+                    console.log(this.transacaoDetalhes);
+                    console.log(this.transacaoStatus);
+                });
+        },
     },
 };
 </script>

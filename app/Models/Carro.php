@@ -14,9 +14,19 @@ class Carro extends Model
     {
         return [
             'modelo_id' => 'exists:modelos,id',
-            'placa' => 'required',
-            'disponivel' => 'required',
+            'placa' => 'required|unique:carros,placa,' . $this->id,
+            'disponivel' => 'required|boolean',
             'km' => 'required',
+        ];
+    }
+
+    public function feedback()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'unique' => 'O campo :attribute já existe',
+            'modelo_id.exists' => 'O campo Modelo já existe',
+            'boolean' => 'O campo :attribute não reconheceu a requisição',
         ];
     }
 
