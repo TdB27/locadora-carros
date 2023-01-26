@@ -14,7 +14,7 @@
                 </button>
                 <!-- fim do button de busca -->
 
-                <!-- inicio do card de marcas -->
+                <!-- inicio do card de carros -->
                 <card-component
                     titulo="Relação de Carros vinculados a um Modelo"
                 >
@@ -102,11 +102,11 @@
                         </div>
                     </template>
                 </card-component>
-                <!-- fim do card de marcas -->
+                <!-- fim do card de carros -->
             </div>
         </div>
 
-        <!-- inicio do Modal de inclusão de marca -->
+        <!-- inicio do Modal de inclusão do carro -->
         <modal-component
             id="modalCadastroCarro"
             titulo="Vincular Carro a um Modelo"
@@ -210,9 +210,9 @@
                 </button>
             </template>
         </modal-component>
-        <!-- fim do Modal de inclusão de marca -->
+        <!-- fim do Modal de inclusão do carro -->
 
-        <!-- inicio do Modal de inclusão de marca -->
+        <!-- inicio do Modal de visualização do carro -->
         <modal-component
             id="modalVisualizarCarro"
             :titulo="'Visualizar Carro ' + $store.state.item.id"
@@ -240,7 +240,7 @@
                 </input-container-component>
 
                 <input-container-component
-                    titulo="Nome da Placa do Carro"
+                    titulo="Número da Placa do Carro"
                     id="visualizarPlaca"
                     id-help=""
                     texto-ajuda=""
@@ -303,7 +303,187 @@
                 </button>
             </template>
         </modal-component>
-        <!-- fim do Modal de inclusão de marca -->
+        <!-- fim do Modal de visualização do carro -->
+
+        <!-- inicio do Modal de atualização do carro -->
+        <modal-component id="modalAtualizarCarro" titulo="Atualizar Carro">
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    titulo="Cadastro realizado com sucesso"
+                    :detalhes="transacaoDetalhes"
+                    v-if="$store.state.transacao.status == 'sucesso'"
+                ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro ao tentar salvar a marca"
+                    :detalhes="transacaoDetalhes"
+                    v-if="$store.state.transacao.status == 'erro'"
+                ></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Modelo"
+                    id="atualizarModelo"
+                    id-help="atualizarModeloHelp"
+                    texto-ajuda="Informe o Modelo do Carro"
+                >
+                    <select
+                        class="form-select"
+                        v-model="$store.state.item.modelo_id"
+                        aria-label="atualizarModelo"
+                    >
+                        <option v-for="m in modelos" :key="m.id" :value="m.id">
+                            {{ m.nome }}
+                        </option>
+                    </select>
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Nome da Placa do Carro"
+                    id="atualizarPlaca"
+                    id-help="atualizarPlacaHelp"
+                    texto-ajuda="Informe o Placa do Carro"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="atualizarPlaca"
+                        aria-describedby="atualizarPlacaHelp"
+                        placeholder="Placa do Carro"
+                        v-model="$store.state.item.placa"
+                    />
+                </input-container-component>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Está Disponível?"
+                        id="atualizarDisponivel"
+                        id-help="atualizarDisponivelHelp"
+                        texto-ajuda="Informe se o carro está disponível"
+                    >
+                        <select
+                            class="form-select"
+                            v-model="$store.state.item.disponivel"
+                            aria-label="atualizarDisponivelHelp"
+                        >
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Km"
+                        id="atualizarKm"
+                        id-help="atualizarKmHelp"
+                        texto-ajuda="Informe o KM do Carro"
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="atualizarKm"
+                            aria-describedby="atualizarKmHelp"
+                            placeholder="Km"
+                            v-model="$store.state.item.km"
+                        />
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="atualizar()"
+                >
+                    Atualizar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de atualização do carro -->
+
+        <!-- inicio do Modal de remoção do carro -->
+        <modal-component
+            id="modalRemoverCarro"
+            :titulo="'Remover Carro ' + $store.state.item.id"
+        >
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    titulo="Cadastro realizado com sucesso"
+                    :detalhes="transacaoDetalhes"
+                    v-if="$store.state.transacao.status == 'sucesso'"
+                ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro ao tentar salvar a marca"
+                    :detalhes="transacaoDetalhes"
+                    v-if="$store.state.transacao.status == 'erro'"
+                ></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Modelo"
+                    id="removerModelo"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="removerModelo"
+                        :value="
+                            $filters.dadosTabelaRelacional(
+                                modelos,
+                                $store.state.item.modelo_id,
+                                'nome'
+                            )
+                        "
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Número da Placa do Carro"
+                    id="removerPlaca"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="removerPlaca"
+                        :value="$store.state.item.placa"
+                        disabled
+                    />
+                </input-container-component>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+                <button type="button" class="btn btn-danger" @click="remover()">
+                    Remover
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de remoção do carro -->
     </div>
 </template>
 
@@ -362,9 +542,50 @@ export default {
                         dados: errors.response.data.errors,
                     };
                     this.transacaoStatus = "erro";
-                    console.log(errors.response);
-                    console.log(this.transacaoDetalhes);
-                    console.log(this.transacaoStatus);
+                });
+        },
+        atualizar() {
+            this.transacaoDetalhes = {};
+            let url = this.urlBase + "/" + this.$store.state.item.id;
+            this.$store.state.item._method = "patch";
+
+            axios
+                .post(url, this.$store.state.item)
+                .then((response) => {
+                    this.$store.state.transacao.status = "sucesso";
+                    this.transacaoDetalhes.mensagem =
+                        "Registro de marca atualizado com sucesso!";
+                    this.carregarLista();
+                })
+                .catch((errors) => {
+                    this.$store.state.transacao.status = "erro";
+                    this.transacaoDetalhes = {
+                        mensagem: errors.response.data.message,
+                        dados: errors.response.data.errors,
+                    };
+                });
+        },
+        remover() {
+            this.transacaoDetalhes = {};
+            let url = this.urlBase + "/" + this.$store.state.item.id;
+            let form = {
+                _method: "delete",
+            };
+
+            axios
+                .post(url, form)
+                .then((response) => {
+                    this.$store.state.transacao.status = "sucesso";
+                    this.transacaoDetalhes.mensagem =
+                        "Registro de removido com sucesso!";
+                    this.carregarLista();
+                })
+                .catch((errors) => {
+                    this.$store.state.transacao.status = "erro";
+                    this.transacaoDetalhes = {
+                        mensagem: "",
+                        dados: errors.response.data.erro,
+                    };
                 });
         },
     },
