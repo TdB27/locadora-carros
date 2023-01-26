@@ -33,6 +33,7 @@ class CarroController extends Controller
             $carroRepository->selectAtributosRegistrosRelacionados($atributos_modelos);
         } else {
             $carroRepository->selectAtributosRegistrosRelacionados('modelo');
+            $carroRepository->selectAtributosRegistrosRelacionados('locacoes');
         }
 
         if ($request->has('filtro')) {
@@ -74,7 +75,7 @@ class CarroController extends Controller
      */
     public function show($id)
     {
-        $carro = $this->carro->with('modelo')->find($id);
+        $carro = $this->carro->with('modelo')->with('locacoes')->find($id);
 
         if ($carro === null)
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);

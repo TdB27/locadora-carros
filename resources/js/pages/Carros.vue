@@ -23,8 +23,8 @@
                             :dados="carros.data"
                             :dados-relacionais="{
                                 dados: carros.data,
-                                campoRelacional: null,
-                                idRelacional: null,
+                                campoRelacional: ['locacoes'],
+                                idRelacional: 'carro_id',
                                 tabela: modelos,
                             }"
                             :visualizar="{
@@ -95,6 +95,7 @@
                                     class="btn btn-secondary btn-sm float-end"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalCadastroCarro"
+                                    @click="configDefault()"
                                 >
                                     Adicionar
                                 </button>
@@ -421,15 +422,24 @@
                 <alert-component
                     tipo="success"
                     titulo="Cadastro realizado com sucesso"
-                    :detalhes="transacaoDetalhes"
-                    v-if="$store.state.transacao.status == 'sucesso'"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'add'"
                 ></alert-component>
                 <alert-component
                     tipo="danger"
                     titulo="Erro ao tentar salvar a marca"
-                    :detalhes="transacaoDetalhes"
+                    :detalhes="$store.state.transacao"
                     v-if="$store.state.transacao.status == 'erro'"
                 ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro na transação"
+                    :detalhes="{
+                        mensagem: 'Há locações vinculados a esse carro',
+                    }"
+                    v-if="$store.state.itensRelacionais.length > 0"
+                >
+                </alert-component>
             </template>
 
             <template v-slot:conteudo>
@@ -478,12 +488,19 @@
                 >
                     Fechar
                 </button>
-                <button type="button" class="btn btn-danger" @click="remover()">
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    @click="remover()"
+                    v-if="$store.state.itensRelacionais.length <= 0"
+                >
                     Remover
                 </button>
             </template>
         </modal-component>
         <!-- fim do Modal de remoção do carro -->
+
+        {{ $store.state.transacao }}
     </div>
 </template>
 
@@ -529,7 +546,6 @@ export default {
             axios
                 .post(this.urlBase, this.form)
                 .then((response) => {
-                    console.log(response);
                     this.transacaoDetalhes = {
                         mensagem: "ID do Registro: " + response.data.id,
                     };
@@ -575,18 +591,21 @@ export default {
             axios
                 .post(url, form)
                 .then((response) => {
-                    this.$store.state.transacao.status = "sucesso";
-                    this.transacaoDetalhes.mensagem =
+                    this.$store.state.transacao.status = "add";
+                    this.$store.state.transacao.mensagem =
                         "Registro de removido com sucesso!";
                     this.carregarLista();
                 })
                 .catch((errors) => {
                     this.$store.state.transacao.status = "erro";
-                    this.transacaoDetalhes = {
-                        mensagem: "",
-                        dados: errors.response.data.erro,
-                    };
+                    this.$store.state.transacao.mensagem =
+                        errors.response.data.erro;
                 });
+        },
+        configDefault() {
+            this.form = {};
+            this.transacaoStatus = "";
+            this.transacaoDetalhes = {};
         },
     },
 };

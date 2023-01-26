@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Locacao extends Model
 {
@@ -32,5 +33,10 @@ class Locacao extends Model
             'km_inicial' => 'required',
             'km_final' => 'required',
         ];
+    }
+
+    public function carro()
+    {
+        return $this->BelongsTo('App\Models\Carro');
     }
 }
