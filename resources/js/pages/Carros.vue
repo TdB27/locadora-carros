@@ -500,7 +500,97 @@
         </modal-component>
         <!-- fim do Modal de remoção do carro -->
 
-        {{ $store.state.transacao }}
+        <!-- inicio do Modal de filtros do carro -->
+        <modal-component id="modalFiltros" titulo="Filtrar Carro">
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Modelo"
+                    id="novoModelo"
+                    id-help="novoModeloHelp"
+                    texto-ajuda="Opcional. Informe o Modelo do Carro"
+                >
+                    <select
+                        class="form-select"
+                        v-model="busca.modelo_id"
+                        aria-label="novoModelo"
+                    >
+                        <option v-for="m in modelos" :key="m.id" :value="m.id">
+                            {{ m.nome }}
+                        </option>
+                    </select>
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Nome da Placa do Carro"
+                    id="novaPlaca"
+                    id-help="novaPlacaHelp"
+                    texto-ajuda="Opcional. Informe o Placa do Carro"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="novaPlaca"
+                        aria-describedby="novaPlacaHelp"
+                        placeholder="Placa do Carro"
+                        v-model="busca.placa"
+                    />
+                </input-container-component>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Está Disponível?"
+                        id="novoDisponivel"
+                        id-help="novoDisponivelHelp"
+                        texto-ajuda="Opcional. Informe se o carro está disponível"
+                    >
+                        <select
+                            class="form-select"
+                            v-model="busca.disponivel"
+                            aria-label="novoDisponivelHelp"
+                        >
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Km"
+                        id="novoKm"
+                        id-help="novoKmHelp"
+                        texto-ajuda="Opcional. Informe o KM do Carro"
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="novoKm"
+                            aria-describedby="novoKmHelp"
+                            placeholder="Km"
+                            v-model="busca.km"
+                        />
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="filtrar()"
+                >
+                    Filtrar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de filtros do carro -->
     </div>
 </template>
 
@@ -606,6 +696,39 @@ export default {
             this.form = {};
             this.transacaoStatus = "";
             this.transacaoDetalhes = {};
+        },
+        filtrar() {
+            let filtro = "";
+
+            for (let chave in this.busca) {
+                let operatorSign = ":like:";
+                let percentSign = "%";
+
+                if (this.busca[chave]) {
+                    if (filtro != "") filtro += ";";
+
+                    if (chave == "id" || chave == "modelo_id") {
+                        operatorSign = ":=:";
+                        percentSign = "";
+                    }
+
+                    filtro +=
+                        chave +
+                        operatorSign +
+                        percentSign +
+                        this.busca[chave] +
+                        percentSign;
+                }
+            }
+
+            if (filtro != "") {
+                this.urlPaginacao = "page=1";
+                this.urlFiltro = "&filtro=" + filtro;
+            } else {
+                this.urlFiltro = "";
+            }
+
+            this.carregarLista();
         },
     },
 };
