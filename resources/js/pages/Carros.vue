@@ -94,7 +94,7 @@
                                     type="button"
                                     class="btn btn-secondary btn-sm float-end"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#modalCarro"
+                                    data-bs-target="#modalCadastroCarro"
                                 >
                                     Adicionar
                                 </button>
@@ -107,7 +107,10 @@
         </div>
 
         <!-- inicio do Modal de inclusão de marca -->
-        <modal-component id="modalCarro" titulo="Vincular Carro a um Modelo">
+        <modal-component
+            id="modalCadastroCarro"
+            titulo="Vincular Carro a um Modelo"
+        >
             <template v-slot:alertas>
                 <alert-component
                     tipo="success"
@@ -204,6 +207,99 @@
                 </button>
                 <button type="button" class="btn btn-primary" @click="salvar()">
                     Salvar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de inclusão de marca -->
+
+        <!-- inicio do Modal de inclusão de marca -->
+        <modal-component
+            id="modalVisualizarCarro"
+            :titulo="'Visualizar Carro ' + $store.state.item.id"
+        >
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Modelo"
+                    id="visualizarModelo"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="visualizarModelo"
+                        :value="
+                            $filters.dadosTabelaRelacional(
+                                modelos,
+                                $store.state.item.modelo_id,
+                                'nome'
+                            )
+                        "
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Nome da Placa do Carro"
+                    id="visualizarPlaca"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="visualizarPlaca"
+                        :value="$store.state.item.placa"
+                        disabled
+                    />
+                </input-container-component>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Está Disponível?"
+                        id="visualizarDisponivel"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="visualizarDisponivel"
+                            :value="
+                                $store.state.item.disponivel == 0
+                                    ? 'Não'
+                                    : 'Sim'
+                            "
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+
+                <div class="col-6">
+                    <input-container-component
+                        titulo="Km"
+                        id="visualizarKm"
+                        id-help=""
+                        texto-ajuda=""
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="visualizarKm"
+                            :value="$store.state.item.km"
+                            disabled
+                        />
+                    </input-container-component>
+                </div>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Fechar
                 </button>
             </template>
         </modal-component>
