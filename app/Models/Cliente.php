@@ -13,7 +13,15 @@ class Cliente extends Model
     public function rules()
     {
         return [
-            'nome' => 'required'
+            'nome' => 'required|min:3'
+        ];
+    }
+
+    public function feedback()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'min' => 'O campo :attribute precisa no mínimo de 3 caracteres'
         ];
     }
 

@@ -27,13 +27,6 @@ class ClienteController extends Controller
     {
         $clienteRepository = new ClienteRepository($this->cliente);
 
-        // if ($request->has('atributos_modelos')) {
-        //     $atributos_modelos = 'modelo:id,' . $request->atributos_modelos;
-        //     $clienteRepository->selectAtributosRegistrosRelacionados($atributos_modelos);
-        // } else {
-        //     $clienteRepository->selectAtributosRegistrosRelacionados('modelo');
-        // }
-
         if ($request->has('filtro')) {
             $clienteRepository->filtro($request->filtro);
         }
@@ -42,7 +35,7 @@ class ClienteController extends Controller
             $clienteRepository->selectAtributos($request->atributos);
         }
 
-        return response()->json($clienteRepository->getResultado(), 200);
+        return response()->json($clienteRepository->getResultadoPaginado(3), 200);
     }
 
     /**
@@ -53,7 +46,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->cliente->rules());
+        $request->validate($this->cliente->rules(), $this->cliente->feedback());
 
         $cliente = $this->cliente->create([
             'nome' => $request->nome,
@@ -104,9 +97,9 @@ class ClienteController extends Controller
                 }
             }
 
-            $request->validate($regrasDinamicas);
+            $request->validate($regrasDinamicas, $this->cliente->feedback());
         } else {
-            $request->validate($cliente->rules());
+            $request->validate($cliente->rules(), $this->cliente->feedback());
         }
 
         // preencher o obj $marca com os daods do request

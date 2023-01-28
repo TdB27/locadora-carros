@@ -72,6 +72,9 @@ app.component("modelos-component", Modelos);
 import Carros from "./pages/Carros.vue";
 app.component("carros-component", Carros);
 
+import Clientes from "./pages/Clientes.vue";
+app.component("clientes-component", Clientes);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

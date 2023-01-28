@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Servicos\CarrosController;
+use App\Http\Controllers\Servicos\ClientesController;
 use App\Http\Controllers\Servicos\MarcasController;
 use App\Http\Controllers\Servicos\ModelosController;
 use Illuminate\Support\Facades\Auth;
@@ -29,4 +30,5 @@ Route::middleware('auth')->prefix('/')->group(function () {
     Route::get('marcas', [MarcasController::class, 'index'])->name('marcas');
     Route::get('modelos', [ModelosController::class, 'index'])->name('modelos');
     Route::get('carros', [CarrosController::class, 'index'])->name('carros');
+    Route::get('clientes', [ClientesController::class, 'index'])->name('clientes');
 });
