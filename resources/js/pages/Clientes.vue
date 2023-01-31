@@ -105,7 +105,7 @@
                 ></alert-component>
                 <alert-component
                     tipo="danger"
-                    titulo="Erro ao tentar salvar a marca"
+                    titulo="Erro ao tentar salvar o cliente"
                     :detalhes="transacaoDetalhes"
                     v-if="transacaoStatus == 'erro'"
                 ></alert-component>
@@ -145,14 +145,14 @@
             <template v-slot:conteudo>
                 <input-container-component
                     titulo="Nome do Cliente"
-                    id="novoCliente"
+                    id="visualizarCliente"
                     id-help=""
                     texto-ajuda=""
                 >
                     <input
                         type="text"
                         class="form-control"
-                        id="novoCliente"
+                        id="visualizarCliente"
                         aria-describedby=""
                         :value="$store.state.item.nome"
                         disabled
@@ -170,13 +170,13 @@
             <template v-slot:alertas>
                 <alert-component
                     tipo="success"
-                    titulo="Cadastro realizado com sucesso"
+                    titulo="Cadastro atualizado com sucesso"
                     :detalhes="$store.state.transacao"
                     v-if="$store.state.transacao.status == 'sucesso'"
                 ></alert-component>
                 <alert-component
                     tipo="danger"
-                    titulo="Erro ao tentar salvar a marca"
+                    titulo="Erro ao tentar atualizar o cliente"
                     :detalhes="$store.state.transacao"
                     v-if="$store.state.transacao.status == 'erro'"
                 ></alert-component>
@@ -185,15 +185,15 @@
             <template v-slot:conteudo>
                 <input-container-component
                     titulo="Nome do Cliente"
-                    id="novoCliente"
-                    id-help="novoClienteHelp"
+                    id="atualizarCliente"
+                    id-help="atualizarClienteHelp"
                     texto-ajuda="Informe o Nome do Cliente"
                 >
                     <input
                         type="text"
                         class="form-control"
-                        id="novoCliente"
-                        aria-describedby="novoClienteHelp"
+                        id="atualizarCliente"
+                        aria-describedby="atualizarClienteHelp"
                         placeholder="Nome do Cliente"
                         v-model="$store.state.item.nome"
                     />
@@ -206,7 +206,7 @@
                     class="btn btn-primary"
                     @click="atualizar()"
                 >
-                    Salvar
+                    Atualizar
                 </button>
             </template>
         </modal-component>
