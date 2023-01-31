@@ -21,8 +21,8 @@
                             :dados="clientes.data"
                             :dados-relacionais="{
                                 dados: clientes.data,
-                                campoRelacional: null,
-                                idRelacional: null,
+                                campoRelacional: ['locacoes'],
+                                idRelacional: 'cliente_id',
                             }"
                             :visualizar="{
                                 visivel: true,
@@ -210,7 +210,98 @@
                 </button>
             </template>
         </modal-component>
-        <!-- fim do Modal de cadastro do cliente -->
+        <!-- fim do Modal de atualizacao do cliente -->
+
+        <!-- inicio do Modal de remoção do cliente -->
+        <modal-component
+            id="modalRemoverCliente"
+            :titulo="'Remover Cliente ' + $store.state.item.id"
+        >
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    titulo="Cliente removido com sucesso"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'sucesso'"
+                ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro ao tentar remover o cliente"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'erro'"
+                ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro na transação"
+                    :detalhes="{
+                        mensagem: 'Há locações vinculados a esse carro',
+                    }"
+                    v-if="$store.state.itensRelacionais.length > 0"
+                >
+                </alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Nome do Cliente"
+                    id="novoCliente"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="novoCliente"
+                        :value="$store.state.item.nome"
+                        disabled
+                    />
+                </input-container-component>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    @click="remover()"
+                    v-if="$store.state.itensRelacionais.length <= 0"
+                >
+                    Remover
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de remoção do cliente -->
+
+        <!-- inicio do Modal de filtro do cliente -->
+        <modal-component id="modalFiltros" titulo="Filtrar Cliente">
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Nome do Cliente"
+                    id="buscaCliente"
+                    id-help="buscaClienteHelp"
+                    texto-ajuda="Informe o Nome do Cliente"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="buscaCliente"
+                        aria-describedby="buscaClienteHelp"
+                        placeholder="Nome do Cliente"
+                        v-model="busca.nome"
+                    />
+                </input-container-component>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="filtrar()"
+                >
+                    Filtrar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de filtro do cliente -->
     </div>
 </template>
 
@@ -283,7 +374,7 @@ export default {
                 .then((response) => {
                     this.$store.state.transacao.status = "sucesso";
                     this.$store.state.transacao.mensagem =
-                        "Registro de marca atualizado com sucesso!";
+                        "Registro de cliente atualizado com sucesso!";
                     this.carregarLista();
                 })
                 .catch((errors) => {
@@ -293,6 +384,59 @@ export default {
                     this.$store.state.transacao.dados =
                         errors.response.data.errors;
                 });
+        },
+        remover() {
+            let url = this.urlBase + "/" + this.$store.state.item.id;
+            let form = {
+                _method: "delete",
+            };
+
+            axios
+                .post(url, form)
+                .then((response) => {
+                    this.$store.state.transacao.status = "sucesso";
+                    this.$store.state.transacao.mensagem =
+                        "Registro de cliente removido com sucesso!";
+                    this.carregarLista();
+                })
+                .catch((errors) => {
+                    this.$store.state.transacao.status = "erro";
+                    this.$store.state.transacao.mensagem =
+                        errors.response.data.erro;
+                });
+        },
+        filtrar() {
+            let filtro = "";
+
+            for (let chave in this.busca) {
+                let operatorSign = ":like:";
+                let percentSign = "%";
+
+                if (this.busca[chave]) {
+                    if (filtro != "") filtro += ";";
+
+                    if (chave == "id" || chave == "modelo_id") {
+                        operatorSign = ":=:";
+                        percentSign = "";
+                    }
+
+                    filtro +=
+                        chave +
+                        operatorSign +
+                        percentSign +
+                        this.busca[chave] +
+                        percentSign;
+                }
+            }
+
+            if (filtro != "") {
+                this.urlPaginacao = "page=1";
+                this.urlFiltro = "&filtro=" + filtro;
+            } else {
+                this.urlFiltro = "";
+            }
+
+            this.carregarLista();
         },
     },
 };
