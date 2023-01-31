@@ -136,6 +136,81 @@
             </template>
         </modal-component>
         <!-- fim do Modal de cadastro do cliente -->
+
+        <!-- inicio do Modal de visualização do cliente -->
+        <modal-component
+            id="modalVisualizarCliente"
+            :titulo="'Visualizar Cliente ' + $store.state.item.id"
+        >
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Nome do Cliente"
+                    id="novoCliente"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="novoCliente"
+                        aria-describedby=""
+                        :value="$store.state.item.nome"
+                        disabled
+                    />
+                </input-container-component>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de visualização do cliente -->
+
+        <!-- inicio do Modal de atualizacao do cliente -->
+        <modal-component
+            id="modalAtualizarCliente"
+            :titulo="'Atualizar Cliente ' + $store.state.item.id"
+        >
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    titulo="Cadastro realizado com sucesso"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'sucesso'"
+                ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro ao tentar salvar a marca"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'erro'"
+                ></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Nome do Cliente"
+                    id="novoCliente"
+                    id-help="novoClienteHelp"
+                    texto-ajuda="Informe o Nome do Cliente"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="novoCliente"
+                        aria-describedby="novoClienteHelp"
+                        placeholder="Nome do Cliente"
+                        v-model="$store.state.item.nome"
+                    />
+                </input-container-component>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="atualizar()"
+                >
+                    Salvar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de cadastro do cliente -->
     </div>
 </template>
 
@@ -197,6 +272,27 @@ export default {
             this.form = {};
             this.transacaoStatus = "";
             this.transacaoDetalhes = {};
+        },
+        atualizar() {
+            let url = this.urlBase + "/" + this.$store.state.item.id;
+
+            this.$store.state.item._method = "patch";
+
+            axios
+                .post(url, this.$store.state.item)
+                .then((response) => {
+                    this.$store.state.transacao.status = "sucesso";
+                    this.$store.state.transacao.mensagem =
+                        "Registro de marca atualizado com sucesso!";
+                    this.carregarLista();
+                })
+                .catch((errors) => {
+                    this.$store.state.transacao.status = "erro";
+                    this.$store.state.transacao.mensagem =
+                        errors.response.data.message;
+                    this.$store.state.transacao.dados =
+                        errors.response.data.errors;
+                });
         },
     },
 };

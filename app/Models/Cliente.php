@@ -25,8 +25,8 @@ class Cliente extends Model
         ];
     }
 
-    public function modelo()
+    public function locacoes()
     {
-        return $this->belongsTo('App\Models\Modelo');
+        return $this->hasMany('App\Models\Locacao', 'cliente_id', 'id');
     }
 }

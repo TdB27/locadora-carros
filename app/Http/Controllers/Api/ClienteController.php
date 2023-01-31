@@ -27,6 +27,8 @@ class ClienteController extends Controller
     {
         $clienteRepository = new ClienteRepository($this->cliente);
 
+        $clienteRepository->selectAtributosRegistrosRelacionados('locacoes');
+
         if ($request->has('filtro')) {
             $clienteRepository->filtro($request->filtro);
         }
@@ -63,7 +65,7 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        $cliente = $this->cliente->find($id);
+        $cliente = $this->cliente->with('locacoes')->find($id);
 
         if ($cliente === null)
             return response()->json(['erro' => 'Recurso pesquisado não existe!'], 404);
