@@ -35,6 +35,15 @@ class Locacao extends Model
         ];
     }
 
+    public function feedback()
+    {
+        return [
+            'cliente_id.exists' => 'O cliente não existe',
+            'carro_id.exists' => 'O carro não existe',
+            'required' => 'O campo :attribute é obirgatório',
+        ];
+    }
+
     public function carro()
     {
         return $this->BelongsTo('App\Models\Carro');

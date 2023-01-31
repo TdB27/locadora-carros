@@ -53,7 +53,11 @@ class LocacaoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->locacao->rules());
+        if ($this->validateFields($request)) {
+            return response()->json(['message' => 'O cliente e o carro já estão vinculados na mesma Data de Início'], 422);
+        };
+
+        $request->validate($this->locacao->rules(), $this->locacao->feedback());
 
         $locacao = $this->locacao->create([
             'cliente_id' => $request->cliente_id,
@@ -111,9 +115,9 @@ class LocacaoController extends Controller
                 }
             }
 
-            $request->validate($regrasDinamicas);
+            $request->validate($regrasDinamicas, $this->locacao->feedback());
         } else {
-            $request->validate($locacao->rules());
+            $request->validate($locacao->rules(), $this->locacao->feedback());
         }
 
         // preencher o obj $marca com os daods do request
@@ -138,5 +142,20 @@ class LocacaoController extends Controller
 
         $locacao->delete();
         return response()->json(['msg ' => 'A locação foi removida com sucesso'], 200);
+    }
+
+    private function validateFields($request)
+    {
+        $locacoes = Locacao::get();
+
+        foreach ($locacoes as $l) {
+            $date = explode(' ', $l->data_inicio_periodo);
+
+            if (($l->cliente_id == $request->cliente_id) &&
+                ($l->carro_id == $request->carro_id) &&
+                ($date[0] == $request->data_inicio_periodo)
+            ) return true;
+        }
+        return false;
     }
 }
