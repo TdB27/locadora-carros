@@ -68,6 +68,9 @@
                                 )
                             }}
                         </span>
+                        <span v-if="titulos[chaveValor].tipo == 'amount'">
+                            R$ {{ $filters.formatAmount(valor) }}
+                        </span>
                     </td>
                     <td
                         class="dropdown text-center"

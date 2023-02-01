@@ -135,6 +135,17 @@ app.config.globalProperties.$filters = {
 
         return filter.join(" ");
     },
+    formatAmount(amount) {
+        return amount.toFixed(2).replace(".", ",");
+    },
+    formataDataInput(dateInput) {
+        let data = "";
+        if (dateInput) {
+            let arr = dateInput.split(" ");
+            data = arr[0];
+        }
+        return data;
+    },
 };
 
 app.mount("#app");

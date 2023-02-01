@@ -74,7 +74,7 @@
                                 },
                                 valor_diaria: {
                                     titulo: 'Data Final Realizado',
-                                    tipo: 'text',
+                                    tipo: 'amount',
                                 },
                                 km_inicial: {
                                     titulo: 'Km Inicial',
@@ -697,41 +697,19 @@ export default {
     },
     computed: {
         formataDataInicio() {
-            let data = "";
-            if (this.$store.state.item?.data_inicio_periodo) {
-                let arr =
-                    this.$store.state.item?.data_inicio_periodo.split(" ");
-
-                data = arr[0];
-            }
-
-            return data;
+            return this.$filters.formataDataInput(
+                this.$store.state.item?.data_inicio_periodo
+            );
         },
         formataDataFinalPrevisto() {
-            let data = "";
-            if (this.$store.state.item?.data_final_previsto_periodo) {
-                let arr =
-                    this.$store.state.item?.data_final_previsto_periodo.split(
-                        " "
-                    );
-
-                data = arr[0];
-            }
-
-            return data;
+            return this.$filters.formataDataInput(
+                this.$store.state.item?.data_final_previsto_periodo
+            );
         },
         formataDataFinalRealizado() {
-            let data = "";
-            if (this.$store.state.item?.data_final_realizado_periodo) {
-                let arr =
-                    this.$store.state.item?.data_final_realizado_periodo.split(
-                        " "
-                    );
-
-                data = arr[0];
-            }
-
-            return data;
+            return this.$filters.formataDataInput(
+                this.$store.state.item?.data_final_realizado_periodo
+            );
         },
     },
 };
