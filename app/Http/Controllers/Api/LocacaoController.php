@@ -31,8 +31,9 @@ class LocacaoController extends Controller
         //     $atributos_modelos = 'modelo:id,' . $request->atributos_modelos;
         //     $clienteRepository->selectAtributosRegistrosRelacionados($atributos_modelos);
         // } else {
-        //     $clienteRepository->selectAtributosRegistrosRelacionados('modelo');
         // }
+        $locacaoRepository->selectAtributosRegistrosRelacionados('cliente');
+        $locacaoRepository->selectAtributosRegistrosRelacionados('carro');
 
         if ($request->has('filtro')) {
             $locacaoRepository->filtro($request->filtro);
@@ -42,7 +43,7 @@ class LocacaoController extends Controller
             $locacaoRepository->selectAtributos($request->atributos);
         }
 
-        return response()->json($locacaoRepository->getResultado(), 200);
+        return response()->json($locacaoRepository->getResultadoPaginado(3), 200);
     }
 
     /**

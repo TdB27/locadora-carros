@@ -41,27 +41,30 @@
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },
-                                cliente_id: {
+                                cliente: {
                                     titulo: 'Cliente',
-                                    tipo: 'relational',
+                                    tipo: 'obj',
                                     campo: 'nome',
                                 },
-                                carro_id: {
+                                carro: {
                                     titulo: 'Carro',
-                                    tipo: 'relational',
+                                    tipo: 'obj',
                                     campo: 'placa',
                                 },
                                 data_inicio_periodo: {
                                     titulo: 'Data Inicio',
                                     tipo: 'data',
+                                    separator: ' ',
                                 },
                                 data_final_previsto_periodo: {
                                     titulo: 'Data Final Previsto',
                                     tipo: 'data',
+                                    separator: ' ',
                                 },
                                 data_final_realizado_periodo: {
                                     titulo: 'Data Final Realizado',
                                     tipo: 'data',
+                                    separator: ' ',
                                 },
                                 valor_diaria: {
                                     titulo: 'Data Final Realizado',
@@ -160,10 +163,10 @@
                 </input-container-component>
 
                 <input-container-component
-                    titulo="Modelo do Carro"
+                    titulo="Carro / Placa"
                     id="novoCarro"
                     id-help="novoCarroHelp"
-                    texto-ajuda="Informe o Carro"
+                    texto-ajuda="Informe o Carro desejado"
                 >
                     <select
                         class="form-select"
@@ -292,7 +295,24 @@ export default {
             transacaoStatus: "",
         };
     },
+    mounted() {
+        console.log(this.carros);
+        this.carregarLista();
+    },
     methods: {
+        carregarLista() {
+            let url = this.urlBase + "?" + this.urlPaginacao + this.urlFiltro;
+
+            axios
+                .get(url)
+                .then((response) => {
+                    this.locacoes = response.data;
+                    console.log(this.locacoes);
+                })
+                .catch((errors) => {
+                    console.log(errors.response);
+                });
+        },
         configDefault() {
             this.form = {};
         },

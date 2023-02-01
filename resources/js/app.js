@@ -98,13 +98,16 @@ app.component("locacoes-component", Locacoes);
 
 app.config.globalProperties.$filters = {
     // filtros globais dentro do vue 3
-    formataDataTempo(d) {
-        if (!d) return "";
+    formataDataTempo(date, separator) {
+        if (!date) return "";
 
-        d = d.split("T");
+        let separatorVal;
+        separator ? (separatorVal = separator) : (separatorVal = "T");
 
-        let data = d[0];
-        let tempo = d[1];
+        date = date.split(separatorVal);
+
+        let data = date[0];
+        let tempo = date[1];
 
         // formatando a data
         data = data.split("-");
@@ -112,9 +115,8 @@ app.config.globalProperties.$filters = {
 
         // formatando o tempo
         tempo = tempo.split(".");
-        tempo = tempo[0];
 
-        return data + " " + tempo;
+        return data;
     },
 
     dadosTabelaRelacional(tabela, id, campo) {

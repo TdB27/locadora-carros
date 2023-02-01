@@ -28,13 +28,21 @@
                             v-if="titulos[chaveValor].tipo == 'data'"
                             class="text-wrap"
                         >
-                            {{ $filters.formataDataTempo(valor) }}
+                            {{
+                                $filters.formataDataTempo(
+                                    valor,
+                                    titulos[chaveValor].separator ?? false
+                                )
+                            }}
                         </span>
                         <span v-if="titulos[chaveValor].tipo == 'imagem'">
                             <img :src="'/storage/' + valor" height="30" />
                         </span>
                         <span v-if="titulos[chaveValor].tipo == 'boolean'">
                             {{ valor == 0 ? "Não" : "Sim" }}
+                        </span>
+                        <span v-if="titulos[chaveValor].tipo == 'obj'">
+                            {{ valor[titulos[chaveValor].campo] }}
                         </span>
                         <span v-if="titulos[chaveValor].tipo == 'relational'">
                             {{
