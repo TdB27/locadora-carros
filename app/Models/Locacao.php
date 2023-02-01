@@ -40,7 +40,7 @@ class Locacao extends Model
         return [
             'cliente_id.exists' => 'O cliente não existe',
             'carro_id.exists' => 'O carro não existe',
-            'required' => 'O campo :attribute é obirgatório',
+            'required' => 'O campo :attribute é obrigatório',
         ];
     }
 

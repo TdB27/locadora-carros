@@ -41,6 +41,12 @@
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },
+                                cliente_id: {
+                                    tipo: 'withoutAppear',
+                                },
+                                carro_id: {
+                                    tipo: 'withoutAppear',
+                                },
                                 cliente: {
                                     titulo: 'Cliente',
                                     tipo: 'obj',
@@ -426,6 +432,164 @@
             -->
         </modal-component>
         <!-- fim do Modal de visualização de locacoes -->
+
+        <!-- inicio do Modal de atualização de locacoes -->
+        <modal-component
+            id="modalAtualizarLocacoes"
+            :titulo="'Atualizar Locação' + $store.state.item.id"
+        >
+            <template v-slot:alertas>
+                <alert-component
+                    tipo="success"
+                    titulo="Cadastro atualizado com sucesso"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'sucesso'"
+                ></alert-component>
+                <alert-component
+                    tipo="danger"
+                    titulo="Erro ao tentar atualizar a locação"
+                    :detalhes="$store.state.transacao"
+                    v-if="$store.state.transacao.status == 'erro'"
+                ></alert-component>
+            </template>
+
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Nome do Cliente"
+                    id="atualizarCliente"
+                    id-help="atualizarClienteHelp"
+                    texto-ajuda="Informe o Cliente"
+                >
+                    <select
+                        class="form-select"
+                        v-model="$store.state.item.cliente_id"
+                        aria-label="atualizarModelo"
+                    >
+                        <option v-for="c in clientes" :key="c.id" :value="c.id">
+                            {{ c.nome }}
+                        </option>
+                    </select>
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Carro / Placa"
+                    id="atualizarCarro"
+                    id-help="atualizarCarroHelp"
+                    texto-ajuda="Informe o Carro desejado"
+                >
+                    <select
+                        class="form-select"
+                        v-model="$store.state.item.carro_id"
+                        aria-label="atualizarCarro"
+                    >
+                        <option v-for="c in carros" :key="c.id" :value="c.id">
+                            {{ c.modelo.nome }} - {{ c.placa }}
+                        </option>
+                    </select>
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Data de Inicio"
+                    id="atualizarDataInicio"
+                    id-help="atualizarDataInicioHelp"
+                    texto-ajuda="Informe a Data de Inicio do Período"
+                >
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="atualizarDataInicio"
+                        v-model="dataInicio"
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Data Final Previsto"
+                    id="atualizarDataFinalPrevista"
+                    id-help="atualizarDataFinalPrevistaHelp"
+                    texto-ajuda="Informe a Data Final Prevista do Período"
+                >
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="atualizarDataFinalPrevista"
+                        v-model="dataFinalPrevisto"
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Data Final Realizado"
+                    id="atualizarDataFinalRealizado"
+                    id-help="atualizarDataFinalRealizadoHelp"
+                    texto-ajuda="Informe a Data Final Realizado do Período"
+                >
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="atualizarDataFinalRealizado"
+                        v-model="dataFinalRealizado"
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Valor da Diária"
+                    id="atualizarValorDiaria"
+                    id-help="atualizarValorDiariaHelp"
+                    texto-ajuda="Informe o Valor da Diária"
+                >
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="atualizarValorDiaria"
+                        aria-describedby="atualizarValorDiariaHelp"
+                        placeholder="Valor da Diária"
+                        v-model="$store.state.item.valor_diaria"
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Km Inicial"
+                    id="atualizarKmInicial"
+                    id-help="atualizarKmInicialHelp"
+                    texto-ajuda="Informe o Km Inicial"
+                >
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="atualizarKmInicial"
+                        aria-describedby="atualizarKmInicialHelp"
+                        placeholder="Km Inicial"
+                        v-model="$store.state.item.km_inicial"
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Km Final"
+                    id="atualizarKmFinal"
+                    id-help="atualizarKmFinalHelp"
+                    texto-ajuda="Informe o Km Inicial"
+                >
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="atualizarKmFinal"
+                        aria-describedby="atualizarKmFinalHelp"
+                        placeholder="Km Final"
+                        v-model="$store.state.item.km_final"
+                    />
+                </input-container-component>
+            </template>
+
+            <template v-slot:rodape>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="atualizar()"
+                >
+                    Atualizar
+                </button>
+            </template>
+        </modal-component>
+        <!-- fim do Modal de atualização de locacoes -->
     </div>
 </template>
 
@@ -442,6 +606,9 @@ export default {
             form: {},
             transacaoDetalhes: {},
             transacaoStatus: "",
+            dataInicio: "",
+            dataFinalPrevisto: "",
+            dataFinalRealizado: "",
         };
     },
     mounted() {
@@ -455,7 +622,6 @@ export default {
                 .get(url)
                 .then((response) => {
                     this.locacoes = response.data;
-                    console.log(this.locacoes);
                 })
                 .catch((errors) => {
                     console.log(errors.response);
@@ -487,6 +653,85 @@ export default {
                     };
                     this.transacaoStatus = "erro";
                 });
+        },
+        atualizar() {
+            let url = this.urlBase + "/" + this.$store.state.item.id;
+
+            this.$store.state.item.data_inicio_periodo = this.dataInicio;
+            this.$store.state.item.data_final_previsto_periodo =
+                this.dataFinalPrevisto;
+            this.$store.state.item.data_final_realizado_periodo =
+                this.dataFinalRealizado;
+            this.$store.state.item._method = "patch";
+
+            this.$store.state.transacao.mensagem = "";
+            this.$store.state.transacao.dados = "";
+
+            axios
+                .post(url, this.$store.state.item)
+                .then((response) => {
+                    this.$store.state.transacao.status = "sucesso";
+                    this.$store.state.transacao.mensagem =
+                        "Registro de locação atualizado com sucesso!";
+                    this.carregarLista();
+                })
+                .catch((errors) => {
+                    this.$store.state.transacao.status = "erro";
+                    this.$store.state.transacao.mensagem =
+                        errors.response.data.message;
+                    this.$store.state.transacao.dados =
+                        errors.response.data.errors;
+                });
+        },
+    },
+    watch: {
+        formataDataInicio() {
+            this.dataInicio = this.formataDataInicio;
+        },
+        formataDataFinalPrevisto() {
+            this.dataFinalPrevisto = this.formataDataFinalPrevisto;
+        },
+        formataDataFinalRealizado() {
+            this.dataFinalRealizado = this.formataDataFinalRealizado;
+        },
+    },
+    computed: {
+        formataDataInicio() {
+            let data = "";
+            if (this.$store.state.item?.data_inicio_periodo) {
+                let arr =
+                    this.$store.state.item?.data_inicio_periodo.split(" ");
+
+                data = arr[0];
+            }
+
+            return data;
+        },
+        formataDataFinalPrevisto() {
+            let data = "";
+            if (this.$store.state.item?.data_final_previsto_periodo) {
+                let arr =
+                    this.$store.state.item?.data_final_previsto_periodo.split(
+                        " "
+                    );
+
+                data = arr[0];
+            }
+
+            return data;
+        },
+        formataDataFinalRealizado() {
+            let data = "";
+            if (this.$store.state.item?.data_final_realizado_periodo) {
+                let arr =
+                    this.$store.state.item?.data_final_realizado_periodo.split(
+                        " "
+                    );
+
+                data = arr[0];
+            }
+
+            return data;
         },
     },
 };

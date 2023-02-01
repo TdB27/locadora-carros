@@ -3,7 +3,14 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th v-for="(t, key) in titulos" :key="key" scope="col">
+                    <th
+                        v-for="(t, key) in titulos"
+                        :key="key"
+                        scope="col"
+                        :style="
+                            t.tipo == 'withoutAppear' ? 'display: none;' : ''
+                        "
+                    >
                         {{ t.titulo }}
                     </th>
                     <th
@@ -20,7 +27,15 @@
             </thead>
             <tbody>
                 <tr v-for="(obj, chave) in dadosFiltrados" :key="chave">
-                    <td v-for="(valor, chaveValor) in obj" :key="chaveValor">
+                    <td
+                        v-for="(valor, chaveValor) in obj"
+                        :key="chaveValor"
+                        :style="
+                            titulos[chaveValor].tipo == 'withoutAppear'
+                                ? 'display: none;'
+                                : ''
+                        "
+                    >
                         <span v-if="titulos[chaveValor].tipo == 'text'">
                             {{ valor }}
                         </span>
@@ -130,6 +145,20 @@ export default {
         "remover",
     ],
     computed: {
+        dadosFiltrados() {
+            let campos = Object.keys(this.titulos);
+            let dadosFiltrados = [];
+
+            this.dados.map((item, chave) => {
+                let itemFiltrado = {};
+                campos.forEach((campo) => {
+                    itemFiltrado[campo] = item[campo]; // utilizar a sintaxe de arr para atribuir valores a objs
+                });
+                dadosFiltrados.push(itemFiltrado);
+            });
+
+            return dadosFiltrados;
+        },
         arrDadosRelacionais() {
             let arr = [];
 
@@ -144,20 +173,6 @@ export default {
             }
 
             return arr;
-        },
-        dadosFiltrados() {
-            let campos = Object.keys(this.titulos);
-            let dadosFiltrados = [];
-
-            this.dados.map((item, chave) => {
-                let itemFiltrado = {};
-                campos.forEach((campo) => {
-                    itemFiltrado[campo] = item[campo]; // utilizar a sintaxe de arr para atribuir valores a objs
-                });
-                dadosFiltrados.push(itemFiltrado);
-            });
-
-            return dadosFiltrados;
         },
     },
     methods: {

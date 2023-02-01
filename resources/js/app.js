@@ -107,14 +107,10 @@ app.config.globalProperties.$filters = {
         date = date.split(separatorVal);
 
         let data = date[0];
-        let tempo = date[1];
 
         // formatando a data
         data = data.split("-");
         data = data[2] + "/" + data[1] + "/" + data[0];
-
-        // formatando o tempo
-        tempo = tempo.split(".");
 
         return data;
     },
