@@ -46,7 +46,9 @@ class Locacao extends Model
 
     public function carro()
     {
-        return $this->BelongsTo('App\Models\Carro');
+        $carro = $this->BelongsTo('App\Models\Carro');
+
+        return $carro;
     }
 
     public function cliente()

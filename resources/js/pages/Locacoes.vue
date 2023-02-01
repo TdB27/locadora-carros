@@ -127,7 +127,7 @@
             </div>
         </div>
 
-        <!-- inicio do Modal de cadastro do cliente -->
+        <!-- inicio do Modal de cadastro de locacoes -->
         <modal-component id="modalCadastroLocacao" titulo="Cadastrar Locação">
             <template v-slot:alertas>
                 <alert-component
@@ -276,7 +276,156 @@
                 </button>
             </template>
         </modal-component>
-        <!-- fim do Modal de cadastro do cliente -->
+        <!-- fim do Modal de cadastro de locacoes -->
+
+        <!-- inicio do Modal de visualização de locacoes -->
+        <modal-component
+            id="modalVisualizarLocacoes"
+            titulo="Visualizar Locação"
+        >
+            <template v-slot:conteudo>
+                <input-container-component
+                    titulo="Nome do Cliente"
+                    id="visualizarCliente"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="visualizarCliente"
+                        :value="$store.state.item.cliente?.nome"
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Carro / Placa"
+                    id="visualizarCarro"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="visualizarCarro"
+                        :value="
+                            $store.state.item.carro?.modelo?.nome +
+                            ' / ' +
+                            $store.state.item.carro?.placa
+                        "
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Data de Inicio"
+                    id="visualizarDataInicio"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="visualizarDataInicio"
+                        :value="
+                            $filters.formataDataTempo(
+                                $store.state.item.data_inicio_periodo,
+                                ' '
+                            )
+                        "
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Data Final Previsto"
+                    id="visualizarDataFinalPrevista"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="visualizarDataFinalPrevista"
+                        :value="
+                            $filters.formataDataTempo(
+                                $store.state.item.data_final_previsto_periodo,
+                                ' '
+                            )
+                        "
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Data Final Realizado"
+                    id="visualizarDataFinalRealizado"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="visualizarDataFinalRealizado"
+                        :value="
+                            $filters.formataDataTempo(
+                                $store.state.item.data_final_realizado_periodo,
+                                ' '
+                            )
+                        "
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Valor da Diária"
+                    id="visualizarValorDiaria"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="visualizarValorDiaria"
+                        :value="$store.state.item.valor_diaria"
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Km Inicial"
+                    id="visualizarKmInicial"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="visualizarKmInicial"
+                        :value="$store.state.item.km_inicial"
+                        disabled
+                    />
+                </input-container-component>
+
+                <input-container-component
+                    titulo="Km Final"
+                    id="visualizarKmFinal"
+                    id-help=""
+                    texto-ajuda=""
+                >
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="visualizarKmFinal"
+                        :value="$store.state.item.km_final"
+                        disabled
+                    />
+                </input-container-component>
+            </template>
+            -->
+        </modal-component>
+        <!-- fim do Modal de visualização de locacoes -->
     </div>
 </template>
 
@@ -296,7 +445,6 @@ export default {
         };
     },
     mounted() {
-        console.log(this.carros);
         this.carregarLista();
     },
     methods: {
@@ -313,6 +461,12 @@ export default {
                     console.log(errors.response);
                 });
         },
+        paginacao(l) {
+            if (l.url) {
+                this.urlPaginacao = l.url.split("?")[1];
+                this.carregarLista();
+            }
+        },
         configDefault() {
             this.form = {};
         },
@@ -324,6 +478,7 @@ export default {
                         mensagem: "ID do Registro: " + response.data.id,
                     };
                     this.transacaoStatus = "add";
+                    this.carregarLista();
                 })
                 .catch((errors) => {
                     this.transacaoDetalhes = {

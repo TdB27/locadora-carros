@@ -33,7 +33,7 @@ class LocacaoController extends Controller
         // } else {
         // }
         $locacaoRepository->selectAtributosRegistrosRelacionados('cliente');
-        $locacaoRepository->selectAtributosRegistrosRelacionados('carro');
+        $locacaoRepository->selectAtributosRegistrosRelacionados('carro', 'carro.modelo');
 
         if ($request->has('filtro')) {
             $locacaoRepository->filtro($request->filtro);

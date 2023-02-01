@@ -13,9 +13,12 @@ abstract class AbstractRepository
         $this->model = $model;
     }
 
-    public function selectAtributosRegistrosRelacionados($atributos)
+    public function selectAtributosRegistrosRelacionados($atributos, $relacionamentoSecundario = null)
     {
-        $this->model = $this->model->with($atributos);
+        if ($relacionamentoSecundario)
+            $this->model = $this->model->with($atributos, $relacionamentoSecundario);
+        else
+            $this->model = $this->model->with($atributos);
     }
 
     public function filtro($filtros)
