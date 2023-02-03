@@ -150,13 +150,6 @@
             </template>
 
             <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
                 <button type="button" class="btn btn-primary" @click="salvar()">
                     Salvar
                 </button>
@@ -221,16 +214,6 @@
                     ></table-relacional-component>
                 </div>
             </template>
-
-            <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
-            </template>
         </modal-component>
         <!-- fim do Modal de visualização de marca -->
 
@@ -283,13 +266,6 @@
             </template>
 
             <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
                 <button
                     type="button"
                     class="btn btn-danger"
@@ -364,13 +340,6 @@
             <template v-slot:rodape>
                 <button
                     type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
-                <button
-                    type="button"
                     class="btn btn-primary"
                     @click="atualizar()"
                 >
@@ -419,13 +388,6 @@
             </template>
 
             <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
                 <button
                     type="button"
                     class="btn btn-primary"

@@ -199,13 +199,6 @@
             </template>
 
             <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
                 <button type="button" class="btn btn-primary" @click="salvar()">
                     Salvar
                 </button>
@@ -292,16 +285,6 @@
                         />
                     </input-container-component>
                 </div>
-            </template>
-
-            <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
             </template>
         </modal-component>
         <!-- fim do Modal de visualização do carro -->
@@ -397,13 +380,6 @@
             <template v-slot:rodape>
                 <button
                     type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
-                <button
-                    type="button"
                     class="btn btn-primary"
                     @click="atualizar()"
                 >
@@ -481,13 +457,6 @@
             </template>
 
             <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
                 <button
                     type="button"
                     class="btn btn-danger"
@@ -574,13 +543,6 @@
             </template>
 
             <template v-slot:rodape>
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
-                    Fechar
-                </button>
                 <button
                     type="button"
                     class="btn btn-primary"
