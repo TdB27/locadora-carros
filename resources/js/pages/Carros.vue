@@ -27,20 +27,22 @@
                                 idRelacional: 'carro_id',
                                 tabela: modelos,
                             }"
-                            :visualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalVisualizarCarro',
-                            }"
-                            :atualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalAtualizarCarro',
-                            }"
-                            :remover="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalRemoverCarro',
+                            :menu="{
+                                visualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalVisualizarCarro',
+                                },
+                                atualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalAtualizarCarro',
+                                },
+                                remover: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalRemoverCarro',
+                                },
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },

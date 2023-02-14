@@ -24,20 +24,27 @@
                                 campoRelacional: null,
                                 idRelacional: null,
                             }"
-                            :visualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalVisualizarLocacoes',
-                            }"
-                            :atualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalAtualizarLocacoes',
-                            }"
-                            :remover="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalRemoverLocacoes',
+                            :menu="{
+                                visualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalVisualizarLocacoes',
+                                },
+                                atualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalAtualizarLocacoes',
+                                },
+                                remover: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalRemoverLocacoes',
+                                },
+                                finalizarLocacao: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalFinalizarLocacoes',
+                                },
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },

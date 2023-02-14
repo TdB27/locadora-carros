@@ -24,20 +24,22 @@
                                 campoRelacional: ['locacoes'],
                                 idRelacional: 'cliente_id',
                             }"
-                            :visualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalVisualizarCliente',
-                            }"
-                            :atualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalAtualizarCliente',
-                            }"
-                            :remover="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalRemoverCliente',
+                            :menu="{
+                                visualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalVisualizarCliente',
+                                },
+                                atualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalAtualizarCliente',
+                                },
+                                remover: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalRemoverCliente',
+                                },
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },

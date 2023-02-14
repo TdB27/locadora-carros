@@ -16,9 +16,9 @@
                     <th
                         class="text-center"
                         v-if="
-                            visualizar.visivel ||
-                            atualizar.visivel ||
-                            remover.visivel
+                            menu.visualizar?.visivel ||
+                            menu.atualizar?.visivel ||
+                            menu.remover?.visivel
                         "
                     >
                         Ações
@@ -75,9 +75,9 @@
                     <td
                         class="dropdown text-center"
                         v-if="
-                            visualizar.visivel ||
-                            atualizar.visivel ||
-                            remover.visivel
+                            menu.visualizar?.visivel ||
+                            menu.atualizar?.visivel ||
+                            menu.remover?.visivel
                         "
                     >
                         <a
@@ -102,9 +102,9 @@
                             <a
                                 href="#"
                                 class="dropdown-item"
-                                v-if="visualizar.visivel"
-                                :data-bs-toggle="visualizar.dataToggle"
-                                :data-bs-target="visualizar.dataTarget"
+                                v-if="menu.visualizar?.visivel"
+                                :data-bs-toggle="menu.visualizar?.dataToggle"
+                                :data-bs-target="menu.visualizar?.dataTarget"
                                 @click="setStore(obj)"
                             >
                                 Visualizar
@@ -112,9 +112,9 @@
                             <a
                                 href="#"
                                 class="dropdown-item"
-                                v-if="atualizar.visivel"
-                                :data-bs-toggle="atualizar.dataToggle"
-                                :data-bs-target="atualizar.dataTarget"
+                                v-if="menu.atualizar?.visivel"
+                                :data-bs-toggle="menu.atualizar?.dataToggle"
+                                :data-bs-target="menu.atualizar?.dataTarget"
                                 @click="setStore(obj)"
                             >
                                 Atualizar
@@ -122,9 +122,23 @@
                             <a
                                 href="#"
                                 class="dropdown-item"
-                                v-if="remover.visivel"
-                                :data-bs-toggle="remover.dataToggle"
-                                :data-bs-target="remover.dataTarget"
+                                v-if="menu.finalizarLocacao?.visivel"
+                                :data-bs-toggle="
+                                    menu.finalizarLocacao?.dataToggle
+                                "
+                                :data-bs-target="
+                                    menu.finalizarLocacao?.dataTarget
+                                "
+                                @click="setStore(obj)"
+                            >
+                                Finalizar Locação
+                            </a>
+                            <a
+                                href="#"
+                                class="dropdown-item"
+                                v-if="menu.remover?.visivel"
+                                :data-bs-toggle="menu.remover?.dataToggle"
+                                :data-bs-target="menu.remover?.dataTarget"
                                 @click="setStore(obj)"
                             >
                                 Remover
@@ -139,14 +153,7 @@
 
 <script>
 export default {
-    props: [
-        "dados",
-        "dadosRelacionais",
-        "titulos",
-        "visualizar",
-        "atualizar",
-        "remover",
-    ],
+    props: ["dados", "dadosRelacionais", "titulos", "menu"],
     computed: {
         dadosFiltrados() {
             let campos = Object.keys(this.titulos);

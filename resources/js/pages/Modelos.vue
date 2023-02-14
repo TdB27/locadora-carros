@@ -25,20 +25,22 @@
                                 idRelacional: 'modelo_id', // modelo pertence a marca
                                 tabela: marcas,
                             }"
-                            :visualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalVisualizarModelo',
-                            }"
-                            :atualizar="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalAtualizarModelo',
-                            }"
-                            :remover="{
-                                visivel: true,
-                                dataToggle: 'modal',
-                                dataTarget: '#modalRemoverModelo',
+                            :menu="{
+                                visualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalVisualizarModelo',
+                                },
+                                atualizar: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalAtualizarModelo',
+                                },
+                                remover: {
+                                    visivel: true,
+                                    dataToggle: 'modal',
+                                    dataTarget: '#modalRemoverModelo',
+                                },
                             }"
                             :titulos="{
                                 id: { titulo: 'ID', tipo: 'text' },
